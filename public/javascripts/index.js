@@ -101,6 +101,7 @@ $(document).ready(function () {
       var obj = JSON.parse(message.data);
       if(!obj.time || !obj.pressure) {
         return;
+        console.log("No data coing");
       }
       timeData.push(obj.time);
       pressureData.push(obj.pressure);
@@ -111,6 +112,9 @@ $(document).ready(function () {
         timeData.shift();
         pressureData.shift();
       }
+
+      console.log(obj.flowrate);
+      console.log(obj.pressure);
 
       if (obj.flowrate) {
         flowrateData.push(obj.flowrate);
