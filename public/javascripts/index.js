@@ -53,6 +53,7 @@ $(document).ready(function () {
         position: 'left',
       }]
     },
+    responsive:true,
     maintainAspectRatio: false
 
   }
@@ -74,6 +75,7 @@ $(document).ready(function () {
           position: 'right'
         }]
     },
+    responsive:true,
     maintainAspectRatio: false
   }
 
