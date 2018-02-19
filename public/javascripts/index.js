@@ -99,10 +99,10 @@ $(document).ready(function () {
     console.log('receive message' + message.data);
     try {
       var obj = JSON.parse(message.data);
-      if(!obj.timestamp || !obj.pressure) {
+      if(!obj.time || !obj.pressure) {
         return;
       }
-      timeData.push(obj.timestamp);
+      timeData.push(obj.time);
       pressureData.push(obj.pressure);
       // only keep no more than 50 points in the line chart
       const maxLen = 50;
