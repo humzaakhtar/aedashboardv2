@@ -77,7 +77,7 @@ $(document).ready(function () {
   //Get the context of the canvas element we want to select
   var ctx = document.getElementById("PressureChart").getContext("2d");
   var optionsNoAnimation = { animation: false }
-  var myLineChart = new Chart(ctx, {
+  var myLineChart1 = new Chart(ctx, {
     type: 'line',
     data: Pressuredataarray,
     options: basicOption1
@@ -85,7 +85,7 @@ $(document).ready(function () {
 
   var ctx = document.getElementById("FlowrateChart").getContext("2d");
   var optionsNoAnimation = { animation: false }
-  var myLineChart = new Chart(ctx, {
+  var myLineChart2 = new Chart(ctx, {
     type: 'line',
     data: Flowratedataarray,
     options: basicOption2
@@ -119,7 +119,8 @@ $(document).ready(function () {
         flowrateData.shift();
       }
 
-      myLineChart.update();
+      myLineChart1.update();
+      myLineChart2.update();
     } catch (err) {
       console.error(err);
     }
