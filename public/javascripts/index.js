@@ -52,10 +52,7 @@ $(document).ready(function () {
         },
         position: 'left',
       }]
-    },
-    responsive:true,
-    maintainAspectRatio: false
-
+    }
   }
 
   var basicOption2 = {
@@ -74,9 +71,7 @@ $(document).ready(function () {
           },
           position: 'right'
         }]
-    },
-    responsive:true,
-    maintainAspectRatio: false
+    }
   }
 
   //Get the context of the canvas element we want to select
