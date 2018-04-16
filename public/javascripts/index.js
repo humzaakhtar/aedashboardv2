@@ -161,13 +161,41 @@ $(document).ready(function() {
 
 
   var ws = new WebSocket('wss://' + location.host);
+
+
+  function ping() {
+          ws.send('__ping__');
+          tm = setTimeout(function () {
+
+          var currentdevicestatus = document.getElementById("currentdevicestatus");
+          currentdevicestatus.innerHTML  = "&#10060;"
+
+
+
+      }, 5000);
+  }
+
+  function pong() {
+      clearTimeout(tm);
+  }
+
   ws.onopen = function() {
     console.log('Successfully connected WebSocket');
+    setInterval(ping, 30000);
   }
+
+
 
 
   ws.onmessage = function(message) {
     console.log('receive message' + message.data);
+
+    if (message.data == '__pong__') {
+        pong();
+        return;
+    }
+
+
     try {
       var obj = JSON.parse(message.data);
       if (!obj.time || !obj.pressure) {
