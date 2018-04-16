@@ -33,8 +33,14 @@ var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionStri
 iotHubReader.startReadMessage(function (obj, date) {
   try {
     console.log(date);
-    date = date || Date.now()
-    wss.broadcast(JSON.stringify(Object.assign(obj, { time: moment(date).format('hh:mm:ss') })));
+    date = date || Date.now();
+    var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
+    var stillUtc = moment.utc(date).toDate();
+    var local = moment(stillUtc).local().format('hh:mm:ss');
+    wss.broadcast(JSON.stringify(Object.assign(obj, { time: local })));
+
+
+
   } catch (err) {
     console.log(obj);
     console.error(err);
