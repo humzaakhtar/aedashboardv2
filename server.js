@@ -34,7 +34,7 @@ iotHubReader.startReadMessage(function (obj, date) {
   try {
     console.log(date);
     date = date || Date.now()
-    wss.broadcast(JSON.stringify(Object.assign(obj, { time: moment.local(date).format('hh:mm:ss') })));
+    wss.broadcast(JSON.stringify(Object.assign(obj, { time: moment(date).format('hh:mm:ss') })));
   } catch (err) {
     console.log(obj);
     console.error(err);
