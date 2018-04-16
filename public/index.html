@@ -34,13 +34,12 @@
         <div class="row"  style="border:1px solid black;">
           <div style="" class="col-md-6">
             <div class="row">
-              <div style="" class="col-md-12">
+              <div style="" class="col-md-6">
                   <h5>Current Job ID</h5>
               </div>
-            </div>
-            <div class="row">
-              <div style="" class="col-md-12">
-                  <h5>XXXXXXX</h5>
+
+              <div style="" class="col-md-6">
+                  <h5 id="currentjobid">XXXXXXX</h5>
               </div>
             </div>
             <div class="row">
@@ -48,7 +47,8 @@
                   <h5>Device Status</h5>
               </div>
               <div style="" class="col-md-6">
-                  <p> &#9989;</>
+                <h5 id="currentdevicestatus"> &#9989;</h5>
+                <!--  <p> &#10060;</p>-->
               </div>
             </div>
             <div class="row">
@@ -57,7 +57,7 @@
 
               </div>
               <div style="" class="col-md-6">
-                <h5>IoTBox1</h5>
+                <h5 id="deviceid">IoTBox1</h5>
               </div>
             </div>
           </div>
@@ -82,7 +82,9 @@
             <div style="text-align:left;padding:0px">
               <h5>Select Job ID (Historical)</h5>
               <input type="text" name="oldjobid"><br><br>
-              <button type="button" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-primary">Visualize</button>
+              <button type="button" class="btn btn-primary">Download</button>
+
             </div>
             <br><br>
         </div>
