@@ -172,9 +172,22 @@ $(document).ready(function() {
       var obj = JSON.parse(message.data);
       if (!obj.time || !obj.pressure) {
         console.log("No data coming");
+        var currentdevicestatus = document.getElementById("currentdevicestatus");
+        currentdevicestatus  = "&#10060;"
         return;
 
       }
+
+      var deviceid = document.getElementById("deviceid");
+      deviceid = obj.deviceId;
+
+
+      var jobid = document.getElementById("currentjobid");
+      jobid = obj.jobId;
+
+      var currentdevicestatus = document.getElementById("currentdevicestatus");
+      currentdevicestatus  = "&#9989;"
+
 
       timeData.push(obj.time);
       pressureData.push(obj.pressure);
