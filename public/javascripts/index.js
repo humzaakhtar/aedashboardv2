@@ -163,7 +163,7 @@ $(document).ready(function() {
   var ws = new WebSocket('wss://' + location.host);
 
 
-  function ping() {
+  /*function ping() {
           ws.send('__ping__');
           tm = setTimeout(function () {
 
@@ -173,15 +173,15 @@ $(document).ready(function() {
 
 
       }, 5000);
-  }
+  }*/
 
-  function pong() {
-      clearTimeout(tm);
-  }
+  //function pong() {
+  //    clearTimeout(tm);
+  //}
 
   ws.onopen = function() {
     console.log('Successfully connected WebSocket');
-    setInterval(ping, 30000);
+  //  setInterval(ping, 30000);
   }
 
 
@@ -190,10 +190,10 @@ $(document).ready(function() {
   ws.onmessage = function(message) {
     console.log('receive message' + message.data);
 
-    if (message.data == '__pong__') {
-        pong();
-        return;
-    }
+//    if (message.data == '__pong__') {
+//        pong();
+//        return;
+//    }
 
 
     try {
