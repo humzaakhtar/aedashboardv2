@@ -179,14 +179,14 @@ $(document).ready(function() {
       }
 
       var deviceid = document.getElementById("deviceid");
-      deviceid = obj.deviceId;
+      deviceid.innerHTML = obj.deviceId;
 
 
       var jobid = document.getElementById("currentjobid");
-      jobid = obj.jobId;
+      jobid.innerHTML= obj.jobId;
 
       var currentdevicestatus = document.getElementById("currentdevicestatus");
-      currentdevicestatus  = "&#9989;"
+      currentdevicestatus.innerHTML  = "&#9989;"
 
 
       timeData.push(obj.time);
