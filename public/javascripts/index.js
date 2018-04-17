@@ -1,10 +1,18 @@
+timeData = [];
+pressureData = [];
+flowrateData = [];
+historicalpressureData = [];
+historicalflowrateData = [];
+Historicaldataarray = {};
+HistoricalDataOption ={};
+canvas_h = 0;
+ctx_h = 0;
+HistoricalLineChart = 0;
+
+tm  = 0;
+
+
 $(document).ready(function() {
-  var timeData = [],
-    pressureData = [],
-    flowrateData = [],
-    historicalpressureData = [];
-  historicalflowrateData = [];
-  tm  = 0;
 
   var Flowratedataarray = {
     labels: timeData,
@@ -39,7 +47,7 @@ $(document).ready(function() {
 
 
 
-  var Historicaldataarray = {
+Historicaldataarray = {
     labels: timeData,
     datasets: [{
         fill: false,
@@ -108,7 +116,7 @@ $(document).ready(function() {
 
 
 
-  var HistoricalDataOption = {
+HistoricalDataOption = {
     scales: {
       yAxes: [{
         scaleLabel: {
@@ -149,9 +157,9 @@ $(document).ready(function() {
 
 
 
-  var canvas = document.getElementById("HistoricalLineChart");
-  var ctx = canvas.getContext('2d');
-  var HistoricalLineChart = new Chart(ctx, {
+canvas_h = document.getElementById("HistoricalLineChart");
+ctx_h = canvas.getContext('2d');
+HistoricalLineChart = new Chart(ctx, {
     type: 'line',
     data: Historicaldataarray,
     options: HistoricalDataOption,
@@ -159,14 +167,6 @@ $(document).ready(function() {
   maintainAspectRatio: false
   });
 
-
-  function visualizedata() {
-      console.log("visalize data");
-  }
-
-  function downloaddata() {
-      console.log("download data");
-  }
 
 
 
@@ -256,3 +256,31 @@ $(document).ready(function() {
     }
   }
 });
+
+
+
+
+
+
+function visualizedata() {
+
+
+  var inputval = document.getElementById('oldjobid').value;
+
+  if(inputval){
+    console.log("visalize data");
+    this.$http.post('http://aedashboardv3.azurewebsites.net/visualize', {
+          title: inputval
+        }).then(response => {
+          // handle response
+          console.log(response);
+
+    });
+
+  }
+
+}
+
+  function downloaddata() {
+      console.log("download data");
+  }
