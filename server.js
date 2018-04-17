@@ -17,33 +17,28 @@ app.get('/', function (req, res) {
     res.redirect('/');
 });
 
+
+
 // visualize old database
-app.post('/visulize', function(req, res) {
+app.post('/visualize', function(req, res) {
+  /*
 var jobid = req.body.title;
 var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
-
 try {
   sql.connect(connectionString, function(err) {
     if (err) {
       console.log(err);
-      return;
-    }
-
+      return;}
     var request = new sql.Request();
     request.query('select * from sensordata where jobid =' + jobid +';', function(err, recordset) {
       if (err) {
         console.log(err);
-        return;
-      }
-
+        return;}
       res.send(recordset);
-
     });
   });
-} catch (ex1) {
-
-}
-
+} catch (ex1) {}
+*/
 });
 
 
