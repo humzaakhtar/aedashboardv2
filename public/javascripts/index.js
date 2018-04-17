@@ -160,7 +160,7 @@ HistoricalDataOption = {
 
 
 canvas_h = document.getElementById("HistoricalLineChart");
-ctx_h = canvas.getContext('2d');
+ctx_h = canvas_h.getContext('2d');
 HistoricalLineChart = new Chart(ctx, {
     type: 'line',
     data: Historicaldataarray,
