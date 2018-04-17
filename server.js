@@ -16,7 +16,7 @@ app.use(function (req, res/*, next*/) {
   res.redirect('/');
 });
 
-// visualize old database
+/*// visualize old database
 app.post('/visulize', function(req, res) {
 var jobid = req.body.title;
 var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
@@ -45,7 +45,7 @@ try {
 
 
 
-});
+});*/
 
 
 const server = http.createServer(app);
