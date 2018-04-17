@@ -3,7 +3,11 @@ const http = require('http');
 const WebSocket = require('ws');
 const moment = require('moment');
 const path = require('path');
+var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
+
+
+
 
 const app = express();
 
@@ -11,6 +15,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req, res/*, next*/) {
   res.redirect('/');
 });
+
+// visualize old database
+app.post('/visulize', function(req, res) {
+
+});
+
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
@@ -71,3 +81,33 @@ function normalizePort(val) {
 
   return false;
 }
+
+/*var connectionString = {
+    user: '[myUserName]',
+    password: '[myPassword]',
+    server: 'tcp:[serverName].database.windows.net',
+    database: '[databaseName]',
+
+    options: {
+        encrypt: true // Use this if you're on Windows Azure
+    }
+};
+
+try {
+  sql.connect(connectionString, function(err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    var request = new sql.Request();
+    request.query('select top 5 from Logs', function(err, recordset) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+    });
+  });
+} catch (ex1) {
+
+}*/

@@ -160,6 +160,15 @@ $(document).ready(function() {
   });
 
 
+  function visualizedata() {
+      console.log("visalize data");
+  }
+
+  function downloaddata() {
+      console.log("download data");
+  }
+
+
 
   var ws = new WebSocket('wss://' + location.host);
 
