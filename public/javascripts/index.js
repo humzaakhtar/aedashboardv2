@@ -4,6 +4,7 @@ $(document).ready(function() {
     flowrateData = [],
     historicalpressureData = [];
   historicalflowrateData = [];
+  tm  = 0;
 
   var Flowratedataarray = {
     labels: timeData,
@@ -172,7 +173,7 @@ $(document).ready(function() {
 
 
 
-      }, 5000);
+      }, 10000);
   }
 
   function pong() {
