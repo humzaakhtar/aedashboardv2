@@ -1,18 +1,20 @@
-timeData = [];
-pressureData = [];
-flowrateData = [];
-historicalpressureData = [];
-historicalflowrateData = [];
-Historicaldataarray = {};
-HistoricalDataOption ={};
-canvas_h = 0;
-ctx_h = 0;
-HistoricalLineChart = 0;
 
-tm  = 0;
 
 
 $(document).ready(function() {
+
+  timeData = [];
+  pressureData = [];
+  flowrateData = [];
+  historicalpressureData = [];
+  historicalflowrateData = [];
+  Historicaldataarray = {};
+  HistoricalDataOption ={};
+  canvas_h = 0;
+  ctx_h = 0;
+  HistoricalLineChart = 0;
+
+  tm  = 0;
 
   var Flowratedataarray = {
     labels: timeData,
