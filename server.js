@@ -5,44 +5,16 @@ const moment = require('moment');
 const path = require('path');
 var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
-//const bodyParser = require("body-parser");
-//var io = require('socket.io')(http);
+
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(bodyParser.urlencoded({
-//    extended: true
-//}));
-//app.use(bodyParser.json());
 
 
-//app.use(function (req, res/*, next*/) {
-//  res.redirect('/');
-//});
-
-
-//io.on('connection', function(socket){
-//  console.log('a user connected');
-//});
-
-
-
-
-app.get('/', function (req, res) {
-    res.redirect('/');
+app.use(function (req, res/*, next*/) {
+  res.redirect('/');
 });
-
-
-
-// visualize old database
-/*app.post('/visualize', function(req, res) {
-
-var jobid = req.body.title;
-console.log(jobid);
-  res.end('success');
-
-});*/
 
 
 const server = http.createServer(app);
@@ -64,7 +36,7 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-
+/*
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
 
@@ -81,20 +53,13 @@ wss.on('connection', function connection(ws) {
             console.log(err);
             return;
           }
-          //io.emit('record',);
-          //  ws.send(recordset);
 
-          //res.send(recordset);
         });
       });
     } catch (ex1) {}
 
-
-
   });
-
-
-});
+});*/
 
 
 var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
@@ -116,31 +81,6 @@ iotHubReader.startReadMessage(function (obj, date) {
 });
 
 
-
-/*io.on('connection', function(socket){
-  socket.on('message', function(msg){
-    console.log('message: ' + msg);
-    var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
-    try {
-      sql.connect(connectionString, function(err) {
-        if (err) {
-          console.log(err);
-          return;}
-        var request = new sql.Request();
-        request.query('select * from sensordata where jobid =' + msg +';', function(err, recordset) {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          io.emit('record', recordset);
-
-          //res.send(recordset);
-        });
-      });
-    } catch (ex1) {}
-
-  });
-});*/
 
 var port = normalizePort(process.env.PORT || '3000');
 server.listen(port, function listening() {
@@ -166,33 +106,3 @@ function normalizePort(val) {
 
   return false;
 }
-
-/*var connectionString = {
-    user: '[myUserName]',
-    password: '[myPassword]',
-    server: 'tcp:[serverName].database.windows.net',
-    database: '[databaseName]',
-
-    options: {
-        encrypt: true // Use this if you're on Windows Azure
-    }
-};
-
-try {
-  sql.connect(connectionString, function(err) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    var request = new sql.Request();
-    request.query('select top 5 from Logs', function(err, recordset) {
-      if (err) {
-        console.log(err);
-        return;
-      }
-    });
-  });
-} catch (ex1) {
-
-}*/
