@@ -5,8 +5,10 @@ const moment = require('moment');
 const path = require('path');
 var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
-
-
+var Connection = require('tedious').Connection;
+var Request = require('tedious').Request;
+//npm install tedious
+//npm install async
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -39,26 +41,59 @@ wss.broadcast = function broadcast(data) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-    ws.send("finally");
-/*
-    console.log('message: ' + msg);
-    var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
-    try {
-      sql.connect(connectionString, function(err) {
-        if (err) {
-          console.log(err);
-          return;}
-        var request = new sql.Request();
-        request.query('select * from sensordata where jobid =' + msg +';', function(err, recordset) {
-          if (err) {
-            console.log(err);
-            return;
-          }
+  //  ws.send("finally");
 
-        });
-      });
-    } catch (ex1) {}
-*/
+    console.log('message: ' + msg);
+
+
+    // Create connection to database
+    var config =
+       {
+         userName: 'akhtarh', // update me
+         password: 'Aeiotbox2', // update me
+         server: 'aesqldatabaseserver.database.windows.net', // update me
+         options:
+            {
+               database: 'aesqldatabase' //update me
+               , encrypt: true
+            }
+       }
+    var connectionsql = new Connection(config);
+
+    // Attempt to connect and execute queries if connection goes through
+    connectionsql.on('connect', function(err)
+       {
+         if (err)
+           {
+              console.log(err)
+           }
+        else
+           {
+             console.log('Reading rows from the Table...');
+
+                 // Read all rows from table
+               request = new Request(
+                       "select * from sensordata where jobid = 001",
+                       function(err, rowCount, rows)
+                          {
+                              ws.send(rowCount + ' row(s) returned');
+                              process.exit();
+                          }
+                      );
+
+               request.on('row', function(columns) {
+                  columns.forEach(function(column) {
+                      console.log("%s\t%s", column.metadata.colName, column.value);
+                   });
+                       });
+               connectionsql.execSql(request);
+           }
+       }
+     );
+
+
+
+
   });
 });
 
