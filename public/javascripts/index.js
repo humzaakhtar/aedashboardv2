@@ -1,4 +1,5 @@
 
+socket = io();
 
 
 $(document).ready(function() {
@@ -264,7 +265,6 @@ function visualizedata() {
   obj.val = inputval;
 
   if(inputval){
-    var socket = io();
     console.log("visalize data");
     socket.emit('message', inputval);
   }
