@@ -31,7 +31,7 @@ app.post('/visualize', function(req, res) {
 
 var jobid = req.body.title;
 console.log(jobid);
-
+  res.end('success');
 /*
 var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
 try {

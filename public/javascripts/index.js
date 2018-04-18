@@ -268,7 +268,7 @@ function visualizedata() {
     $.ajax({
       type: 'POST',
       data: obj,
-      contentType: "application/json",
+      contentType: "application/json; charset=utf-8",
       dataType: 'json',
       url: 'https://aedashboardv3.azurewebsites.net/visualize',
       success: function(data) {
