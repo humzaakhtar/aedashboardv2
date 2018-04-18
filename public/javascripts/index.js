@@ -1,5 +1,4 @@
 
-socket = io();
 
 
 $(document).ready(function() {
@@ -259,6 +258,8 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 function visualizedata() {
 
+  socket = io();
+
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
   var obj ={};
@@ -268,11 +269,15 @@ function visualizedata() {
     console.log("visalize data");
     socket.emit('message', inputval);
   }
+
+  socket.on('record', function(msg){
+        console.log(msg);
+  });
+
+
 }
 
-socket.on('record', function(msg){
-      console.log(msg);
-    });
+
 
 
 function downloaddata() {
