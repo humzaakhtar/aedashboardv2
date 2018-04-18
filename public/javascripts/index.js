@@ -161,7 +161,7 @@ HistoricalDataOption = {
 
 canvas_h = document.getElementById("HistoricalLineChart");
 ctx_h = canvas_h.getContext('2d');
-HistoricalLineChart = new Chart(ctx, {
+HistoricalLineChart = new Chart(ctx_h, {
     type: 'line',
     data: Historicaldataarray,
     options: HistoricalDataOption,
@@ -286,4 +286,3 @@ function visualizedata() {
   function downloaddata() {
       console.log("download data");
   }
-  
