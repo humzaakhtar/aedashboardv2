@@ -270,7 +270,7 @@ function visualizedata() {
       data: obj,
       contentType: "application/json; charset=utf-8",
       dataType: 'json',
-      url: 'https://aedashboardv3.azurewebsites.net/visualize',
+      url: '/visualize',
       success: function(data) {
         console.log(data);
       }
