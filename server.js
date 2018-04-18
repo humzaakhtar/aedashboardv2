@@ -11,10 +11,10 @@ var io = require('socket.io')(http);
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({
+//    extended: true
+//}));
+//app.use(bodyParser.json());
 
 
 //app.use(function (req, res/*, next*/) {
@@ -22,34 +22,11 @@ app.use(bodyParser.json());
 //});
 
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
+//io.on('connection', function(socket){
+//  console.log('a user connected');
+//});
 
-io.on('connection', function(socket){
-  socket.on('message', function(msg){
-    console.log('message: ' + msg);
-    var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
-    try {
-      sql.connect(connectionString, function(err) {
-        if (err) {
-          console.log(err);
-          return;}
-        var request = new sql.Request();
-        request.query('select * from sensordata where jobid =' + msg +';', function(err, recordset) {
-          if (err) {
-            console.log(err);
-            return;
-          }
-          io.emit('record', recordset);
 
-          //res.send(recordset);
-        });
-      });
-    } catch (ex1) {}
-
-  });
-});
 
 
 app.get('/', function (req, res) {
@@ -101,6 +78,33 @@ iotHubReader.startReadMessage(function (obj, date) {
     console.log(obj);
     console.error(err);
   }
+});
+
+
+
+io.on('connection', function(socket){
+  socket.on('message', function(msg){
+    console.log('message: ' + msg);
+    var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
+    try {
+      sql.connect(connectionString, function(err) {
+        if (err) {
+          console.log(err);
+          return;}
+        var request = new sql.Request();
+        request.query('select * from sensordata where jobid =' + msg +';', function(err, recordset) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          io.emit('record', recordset);
+
+          //res.send(recordset);
+        });
+      });
+    } catch (ex1) {}
+
+  });
 });
 
 var port = normalizePort(process.env.PORT || '3000');
