@@ -259,13 +259,15 @@ HistoricalLineChart = new Chart(ctx_h, {
 function visualizedata() {
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
+  var obj;
+  obj.val = inputval;
 
   if(inputval){
     console.log("visalize data");
 
     $.ajax({
       type: 'POST',
-      data: JSON.parse(inputval),
+      data: obj,
       contentType: "application/json",
       dataType: 'json',
       url: 'http://aedashboardv3.azurewebsites.net/visualize',
