@@ -36,10 +36,10 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-/*
+
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-
+/*
     console.log('message: ' + msg);
     var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
     try {
@@ -57,9 +57,9 @@ wss.on('connection', function connection(ws) {
         });
       });
     } catch (ex1) {}
-
+*/
   });
-});*/
+});
 
 
 var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
