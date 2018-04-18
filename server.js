@@ -70,10 +70,10 @@ wss.on('connection', function connection(ws) {
         else
            {
              console.log('Reading rows from the Table...');
-
+             var reqsql = "select * from sensordata where jobid = "+ msg;
                  // Read all rows from table
                request = new Request(
-                       "select * from sensordata where jobid = 001",
+                       reqsql,
                        function(err, rowCount, rows)
                           {
                               ws.send(rowCount + ' row(s) returned');
@@ -83,7 +83,8 @@ wss.on('connection', function connection(ws) {
 
                request.on('row', function(columns) {
                   columns.forEach(function(column) {
-                      console.log("%s\t%s", column.metadata.colName, column.value);
+                      ws.send("%s\t%s", column.metadata.colName, column.value);
+
                    });
                        });
                connectionsql.execSql(request);
