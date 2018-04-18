@@ -263,7 +263,7 @@ HistoricalLineChart = new Chart(ctx, {
 
 
 
-/*
+
 function visualizedata() {
 
 
@@ -286,4 +286,4 @@ function visualizedata() {
   function downloaddata() {
       console.log("download data");
   }
-*/
+  
