@@ -178,12 +178,8 @@ HistoricalLineChart = new Chart(ctx_h, {
   function ping() {
           ws.send('__ping__');
           tm = setTimeout(function () {
-
           var currentdevicestatus = document.getElementById("currentdevicestatus");
           currentdevicestatus.innerHTML  = "&#10060;"
-
-
-
       }, 10000);
   }
 
@@ -201,7 +197,6 @@ HistoricalLineChart = new Chart(ctx_h, {
 
   ws.onmessage = function(message) {
     console.log('receive message' + message.data);
-
     if (message.data == '__pong__') {
         pong();
         return;
@@ -267,12 +262,18 @@ function visualizedata() {
 
   if(inputval){
     console.log("visalize data");
-    this.$http.post('http://aedashboardv3.azurewebsites.net/visualize', {
-          title: inputval
-        }).then(response => {
-          // handle response
-          console.log(response);
+
+    $.ajax({
+      type: 'POST',
+      data: JSON.parse(inputval),
+      contentType: "application/json",
+      dataType: 'json',
+      url: 'http://aedashboardv3.azurewebsites.net/visualize',
+      success: function(data) {
+        console.log(data);
+      }
     });
+
   }
 }
 

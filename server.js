@@ -5,10 +5,17 @@ const moment = require('moment');
 const path = require('path');
 var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
+const bodyParser = require("body-parser");
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+
 //app.use(function (req, res/*, next*/) {
 //  res.redirect('/');
 //});
