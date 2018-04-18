@@ -172,7 +172,7 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 
 
-  var ws = new WebSocket('wss://' + location.host);
+ws = new WebSocket('wss://' + location.host);
 
 
   function ping() {
@@ -258,7 +258,7 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 function visualizedata() {
 
-  socket = io();
+  //socket = io();
 
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
@@ -267,12 +267,13 @@ function visualizedata() {
 
   if(inputval){
     console.log("visalize data");
-    socket.emit('message', inputval);
+    ws.send(inputval);
+  //  socket.emit('message', inputval);
   }
 
-  socket.on('record', function(msg){
-        console.log(msg);
-  });
+//  socket.on('record', function(msg){
+//        console.log(msg);
+//  });
 
 
 }
