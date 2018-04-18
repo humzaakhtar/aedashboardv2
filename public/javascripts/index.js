@@ -262,9 +262,9 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 
 function visualizedata() {
-  var inputval = document.getElementById("oldjobid");
+  var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
-  
+
   if(inputval){
     console.log("visalize data");
     this.$http.post('http://aedashboardv3.azurewebsites.net/visualize', {
