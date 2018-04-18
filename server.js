@@ -21,8 +21,11 @@ app.get('/', function (req, res) {
 
 // visualize old database
 app.post('/visualize', function(req, res) {
-  /*
+
 var jobid = req.body.title;
+console.log(jobid);
+
+/*
 var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
 try {
   sql.connect(connectionString, function(err) {
