@@ -82,7 +82,7 @@ iotHubReader.startReadMessage(function (obj, date) {
 
 
 
-io.on('connection', function(socket){
+/*io.on('connection', function(socket){
   socket.on('message', function(msg){
     console.log('message: ' + msg);
     var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
@@ -105,7 +105,7 @@ io.on('connection', function(socket){
     } catch (ex1) {}
 
   });
-});
+});*/
 
 var port = normalizePort(process.env.PORT || '3000');
 server.listen(port, function listening() {
