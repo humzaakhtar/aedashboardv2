@@ -14,13 +14,15 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use(function (req, res/*, next*/) {
+app.use(function(req, res /*, next*/ ) {
   res.redirect('/');
 });
 
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({
+  server
+});
 
 
 
@@ -41,56 +43,63 @@ wss.broadcast = function broadcast(data) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-  //  ws.send("finally");
+    //  ws.send("finally");
 
     console.log('message: ' + msg);
 
 
     // Create connection to database
-    var config =
-       {
-         userName: 'akhtarh', // update me
-         password: 'Aeiotbox2', // update me
-         server: 'aesqldatabaseserver.database.windows.net', // update me
-         options:
-            {
-               database: 'aesqldatabase' //update me
-               , encrypt: true
-            }
-       }
+    var config = {
+      userName: 'akhtarh', // update me
+      password: 'Aeiotbox2', // update me
+      server: 'aesqldatabaseserver.database.windows.net', // update me
+      options: {
+        database: 'aesqldatabase' //update me
+          ,
+        encrypt: true
+      }
+    }
     var connectionsql = new Connection(config);
 
     // Attempt to connect and execute queries if connection goes through
-    connectionsql.on('connect', function(err)
-       {
-         if (err)
-           {
-              console.log(err)
-           }
-        else
-           {
-             console.log('Reading rows from the Table...');
-             var reqsql = "select * from sensordata where jobid = "+ msg;
-                 // Read all rows from table
-               request = new Request(
-                       reqsql,
-                       function(err, rowCount, rows)
-                          {
-                              ws.send(rowCount + ' row(s) returned');
-                              process.exit();
-                          }
-                      );
+    connectionsql.on('connect', function(err) {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('Reading rows from the Table...');
+        var reqsql = "select * from sensordata where jobid = " + msg;
+        // Read all rows from table
+        request = new Request(
+          reqsql,
+          function(err, rowCount, rows) {
+            ws.send(rowCount + ' row(s) returned');
 
-               request.on('row', function(columns) {
-                  columns.forEach(function(column) {
-                      ws.send("%s\t%s", column.metadata.colName, column.value);
+            jsonArray = []
+            rows.forEach(function(columns) {
+              var rowObject = {};
+              columns.forEach(function(column) {
+                rowObject[column.metadata.colName] = column.value;
+              });
+              ws.send(rowObject);
+            //  jsonArray.push(rowObject)
+            });
+          //  ws.send(jsonArray);
+            process.exit();
 
-                   });
-                       });
-               connectionsql.execSql(request);
-           }
-       }
-     );
+
+
+          }
+        );
+
+        /*request.on('row', function(columns) {
+          columns.forEach(function(column) {
+            ws.send("%s\t%s", column.metadata.colName, column.value);
+
+          });
+        });
+        connectionsql.execSql(request);*/
+      }
+    });
 
 
 
@@ -100,14 +109,16 @@ wss.on('connection', function connection(ws) {
 
 
 var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
-iotHubReader.startReadMessage(function (obj, date) {
+iotHubReader.startReadMessage(function(obj, date) {
   try {
     console.log(date);
     date = date || Date.now();
     var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
     var stillUtc = moment.utc(date).toDate();
     var local = moment(stillUtc).local().format('hh:mm:ss');
-    wss.broadcast(JSON.stringify(Object.assign(obj, { time: local })));
+    wss.broadcast(JSON.stringify(Object.assign(obj, {
+      time: local
+    })));
 
 
 
