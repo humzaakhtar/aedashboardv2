@@ -73,17 +73,6 @@ wss.on('connection', function connection(ws) {
           reqsql,
           function(err, rowCount, rows) {
             ws.send(rowCount + ' row(s) returned');
-
-            jsonArray = []
-            rows.forEach(function(columns) {
-              var rowObject = {};
-              columns.forEach(function(column) {
-                rowObject[column.metadata.colName] = column.value;
-              });
-              ws.send(rowObject);
-            //  jsonArray.push(rowObject)
-            });
-          //  ws.send(jsonArray);
             process.exit();
 
 
@@ -91,13 +80,15 @@ wss.on('connection', function connection(ws) {
           }
         );
 
-        /*request.on('row', function(columns) {
+        request.on('row', function(columns) {
+          var rowObject = {};
           columns.forEach(function(column) {
-            ws.send("%s\t%s", column.metadata.colName, column.value);
-
+            //ws.send("%s\t%s", column.metadata.colName, column.value);
+            rowObject[column.metadata.colName] = column.value;
           });
+          ws.send(rowObject);
         });
-        connectionsql.execSql(request);*/
+        connectionsql.execSql(request);
       }
     });
 
