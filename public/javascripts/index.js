@@ -259,7 +259,7 @@ HistoricalLineChart = new Chart(ctx_h, {
 function visualizedata() {
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
-  var obj;
+  var obj ={};
   obj.val = inputval;
 
   if(inputval){
