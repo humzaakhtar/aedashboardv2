@@ -86,7 +86,7 @@ wss.on('connection', function connection(ws) {
             //ws.send("%s\t%s", column.metadata.colName, column.value);
             rowObject[column.metadata.colName] = column.value;
           });
-          ws.send(rowObject);
+        //  ws.send(rowObject);
         });
         connectionsql.execSql(request);
       }
