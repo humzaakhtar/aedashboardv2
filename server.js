@@ -63,6 +63,8 @@ wss.on('connection', function connection(ws) {
 
     // Attempt to connect and execute queries if connection goes through
     connectionsql.on('connect', function(err) {
+      jsonArray = []
+
       if (err) {
         console.log(err)
       } else {
@@ -72,7 +74,7 @@ wss.on('connection', function connection(ws) {
         request = new Request(
           reqsql,
           function(err, rowCount, rows) {
-            ws.send(rowCount + ' row(s) returned');
+            //ws.send(rowCount + ' row(s) returned');
             process.exit();
 
 
@@ -87,8 +89,10 @@ wss.on('connection', function connection(ws) {
             rowObject[column.metadata.colName] = column.value;
           });
         //  ws.send(rowObject);
+        jsonArray.push(rowObject)
         });
         connectionsql.execSql(request);
+        ws.send(jsonArray);
       }
     });
 
