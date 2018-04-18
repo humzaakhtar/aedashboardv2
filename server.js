@@ -6,6 +6,7 @@ const path = require('path');
 var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
 const bodyParser = require("body-parser");
+var io = require('socket.io')(http);
 
 const app = express();
 
@@ -20,6 +21,37 @@ app.use(bodyParser.json());
 //  res.redirect('/');
 //});
 
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+io.on('connection', function(socket){
+  socket.on('message', function(msg){
+    console.log('message: ' + msg);
+    var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
+    try {
+      sql.connect(connectionString, function(err) {
+        if (err) {
+          console.log(err);
+          return;}
+        var request = new sql.Request();
+        request.query('select * from sensordata where jobid =' + msg +';', function(err, recordset) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+          io.emit('record', recordset);
+
+          //res.send(recordset);
+        });
+      });
+    } catch (ex1) {}
+
+  });
+});
+
+
 app.get('/', function (req, res) {
     res.redirect('/');
 });
@@ -27,29 +59,13 @@ app.get('/', function (req, res) {
 
 
 // visualize old database
-app.post('/visualize', function(req, res) {
+/*app.post('/visualize', function(req, res) {
 
 var jobid = req.body.title;
 console.log(jobid);
   res.end('success');
-/*
-var connectionString = {'Data Source=tcp:aesqldatabaseserver.database.windows.net,1433;Initial Catalog=aesqldatabase;User Id=null@aesqldatabaseserver.database.windows.net;Password=Aeiotbox2;'};
-try {
-  sql.connect(connectionString, function(err) {
-    if (err) {
-      console.log(err);
-      return;}
-    var request = new sql.Request();
-    request.query('select * from sensordata where jobid =' + jobid +';', function(err, recordset) {
-      if (err) {
-        console.log(err);
-        return;}
-      res.send(recordset);
-    });
-  });
-} catch (ex1) {}
-*/
-});
+
+});*/
 
 
 const server = http.createServer(app);

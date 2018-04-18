@@ -257,28 +257,22 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 
 function visualizedata() {
+
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
   var obj ={};
   obj.val = inputval;
 
   if(inputval){
+    var socket = io();
     console.log("visalize data");
-
-    $.ajax({
-      type: 'POST',
-      data: obj,
-      contentType: "application/json; charset=utf-8",
-      dataType: 'json',
-      url: '/visualize',
-      success: function(data) {
-        console.log(data);
-      }
-    });
-
+    socket.emit('message', inputval);
   }
 }
 
+socket.on('record', function(msg){
+      console.log(msg);
+    });
 
 
 function downloaddata() {
