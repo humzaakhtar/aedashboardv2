@@ -81,7 +81,8 @@ wss.on('connection', function connection(ws) {
             console.log(err);
             return;
           }
-          io.emit('record', recordset);
+          //io.emit('record',);
+            ws.send( recordset);
 
           //res.send(recordset);
         });
@@ -92,7 +93,7 @@ wss.on('connection', function connection(ws) {
 
   });
 
-  ws.send('something');
+
 });
 
 
