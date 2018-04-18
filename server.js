@@ -5,7 +5,7 @@ const moment = require('moment');
 const path = require('path');
 var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
-const bodyParser = require("body-parser");
+//const bodyParser = require("body-parser");
 //var io = require('socket.io')(http);
 
 const app = express();
@@ -82,7 +82,7 @@ wss.on('connection', function connection(ws) {
             return;
           }
           //io.emit('record',);
-            ws.send( recordset);
+          //  ws.send(recordset);
 
           //res.send(recordset);
         });
