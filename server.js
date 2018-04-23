@@ -126,7 +126,7 @@ wss.on('connection', function connection(ws) {
                             //}
 
                               writer.write({hello: "world", foo: "bar", baz: "taco"});
-                              //writer.end()
+                              writer.end()
                             }
 
                         });
