@@ -79,6 +79,7 @@ wss.on('connection', function connection(ws) {
           if (err) {
             console.log(err)
           } else {
+            ws.send("connection established");
             console.log('Reading rows from the Table...');
             var reqsql = "select * from sensordata where jobid = " + msg.jobid
             request = new Request(
