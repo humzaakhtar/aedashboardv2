@@ -17,7 +17,7 @@ var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","f
 //res.download(file); // Set disposition and send it.
 
 var fs = require('fs');
-var stream = fs.createWriteStream("historical_data.csv");
+//var stream = fs.createWriteStream("historical_data.csv");
 
 const app = express();
 
@@ -65,7 +65,7 @@ function isJson(str) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-    writer.pipe(stream)
+    //writer.pipe(stream)
 
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -143,7 +143,7 @@ wss.on('connection', function connection(ws) {
                               //console.log(rows) // this is the full array of row objects
                               console.log(jsonArray)
                               for (var i = 0; i < jsonArray.length; i++) {
-                                writer.pipe(fs.createWriteStream("historical_data.csv", {flags: 'a'}));
+                                writer.pipe(fs.createWriteStream("historical_data1.csv", {flags: 'a'}));
                                 writer.write(jsonArray[i]);
 
                               }
