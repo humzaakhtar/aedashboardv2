@@ -73,7 +73,6 @@ if(isJson(msg)){
         }
       }
       var connectionsql = new Connection(config);
-
       // Attempt to connect and execute queries if connection goes through
       connectionsql.on('connect', function(err) {
         jsonArray = []
@@ -92,15 +91,15 @@ if(isJson(msg)){
             }
           );
 
-          request.on('row', function(columns) {
+          setInterval(request.on('row', function(columns) {
             var rowObject = {};
             columns.forEach(function(column) {
 
               rowObject[column.metadata.colName] = column.value;
             });
-            //  ws.send(rowObject);
+             ws.send(rowObject);
             jsonArray.push(rowObject)
-          });
+          }), 1000);
           connectionsql.execSql(request);
         //  ws.send(jsonArray);
         }
