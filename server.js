@@ -113,7 +113,7 @@ wss.on('connection', function connection(ws) {
                             if(itemsProcessed === 6) {
                               //callback();
                               rowObject["from"] = "db"
-                              client.send(JSON.stringify(rowObject))
+                              //client.send(JSON.stringify(rowObject))
                               if(csvheader == 0){
                                 csvheader++;
                                 var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time"]});
