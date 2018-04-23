@@ -45,61 +45,61 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
     //  ws.send("finally");
 
-    console.log('message: ' + msg);
+    if (msg.hasOwnProperty('jobid')) {
+
+      console.log('message: ' + msg);
 
 
-    // Create connection to database
-    var config = {
-      userName: 'akhtarh', // update me
-      password: 'Aeiotbox2', // update me
-      server: 'aesqldatabaseserver.database.windows.net', // update me
-      options: {
-        database: 'aesqldatabase' //update me
-          ,
-        encrypt: true
+      // Create connection to database
+      var config = {
+        userName: 'akhtarh', // update me
+        password: 'Aeiotbox2', // update me
+        server: 'aesqldatabaseserver.database.windows.net', // update me
+        options: {
+          database: 'aesqldatabase',
+          encrypt: true
+        }
       }
-    }
-    var connectionsql = new Connection(config);
+      var connectionsql = new Connection(config);
 
-    // Attempt to connect and execute queries if connection goes through
-    connectionsql.on('connect', function(err) {
-      jsonArray = []
+      // Attempt to connect and execute queries if connection goes through
+      connectionsql.on('connect', function(err) {
+        jsonArray = []
 
-      if (err) {
-        console.log(err)
-      } else {
-        console.log('Reading rows from the Table...');
-        var reqsql = "select * from sensordata where jobid = " + msg;
-        // Read all rows from table
-        request = new Request(
-          reqsql,
-          function(err, rowCount, rows) {
-            //ws.send(rowCount + ' row(s) returned');
-            process.exit();
+        if (err) {
+          console.log(err)
+        } else {
+          console.log('Reading rows from the Table...');
+          var reqsql = "select * from sensordata where jobid = " + msg.
+          // Read all rows from table
+          request = new Request(
+            reqsql,
+            function(err, rowCount, rows) {
+              //ws.send(rowCount + ' row(s) returned');
+              process.exit();
+            }
+          );
 
-
-
-          }
-        );
-
-        request.on('row', function(columns) {
-          var rowObject = {};
-          columns.forEach(function(column) {
-            //ws.send("%s\t%s", column.metadata.colName, column.value);
-            rowObject[column.metadata.colName] = column.value;
+          request.on('row', function(columns) {
+            var rowObject = {};
+            columns.forEach(function(column) {
+              //ws.send("%s\t%s", column.metadata.colName, column.value);
+              rowObject[column.metadata.colName] = column.value;
+            });
+            //  ws.send(rowObject);
+            jsonArray.push(rowObject)
           });
-        //  ws.send(rowObject);
-        jsonArray.push(rowObject)
-        });
-        connectionsql.execSql(request);
-        ws.send(jsonArray);
-      }
-    });
+          connectionsql.execSql(request);
+          ws.send(jsonArray);
+        }
+      });
 
 
-
+    }
 
   });
+
+
 });
 
 

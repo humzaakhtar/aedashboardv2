@@ -264,11 +264,11 @@ function visualizedata() {
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
   var obj ={};
-  obj.val = inputval;
+  obj.jobid = inputval;
 
   if(inputval){
     console.log("visalize data");
-    ws.send(inputval);
+    ws.send(obj);
   //  socket.emit('message', inputval);
   }
 
