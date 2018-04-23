@@ -6,6 +6,7 @@ $(document).ready(function() {
   timeData = [];
   pressureData = [];
   flowrateData = [];
+  historicaltimeData =[];
   historicalpressureData = [];
   historicalflowrateData = [];
   Historicaldataarray = {};
@@ -50,7 +51,7 @@ $(document).ready(function() {
 
 
 Historicaldataarray = {
-    labels: timeData,
+    labels: historicaltimeData,
     datasets: [{
         fill: false,
         label: 'Pressure',
@@ -200,7 +201,7 @@ ws = new WebSocket('wss://' + location.host);
     console.log('receive message' + message.data);
   //  console.log('receive message' + message.data);
 
-  /*  if (message.data == '__pong__') {
+   if (message.data == '__pong__') {
         pong();
         return;
     }
@@ -208,52 +209,93 @@ ws = new WebSocket('wss://' + location.host);
 
     try {
       var obj = JSON.parse(message.data);
-      if (!obj.time || !obj.pressure) {
-        console.log("No data coming");
-        var currentdevicestatus = document.getElementById("currentdevicestatus");
-        currentdevicestatus  = "&#10060;"
-        return;
+
+      if( obj.hasOwnProperty('from'){
+
+              if (!obj.time || !obj.pressure) {
+                console.log("No data coming");
+                return;
+
+              }
+
+
+
+              historicaltimeData.push(obj.time);
+              historicalpressureData.push(obj.pressure);
+
+              const maxLen = 50;
+              var len = timeData.length;
+
+              if (len > maxLen) {
+                historicaltimeData.shift();
+                historicalpressureData.shift();
+              }
+
+              if (obj.flowrate) {
+                historicalflowrateData.push(obj.flowrate);
+              }
+              if (flowrateData.length > maxLen) {
+                historicalflowrateData.shift();
+              }
+
+              HistoricalLineChart.update();
+
 
       }
 
-      var deviceid = document.getElementById("deviceid");
-      deviceid.innerHTML = obj.deviceId;
+else{
+
+            if (!obj.time || !obj.pressure) {
+              console.log("No data coming");
+              var currentdevicestatus = document.getElementById("currentdevicestatus");
+              currentdevicestatus  = "&#10060;"
+              return;
+
+            }
+
+            var deviceid = document.getElementById("deviceid");
+            deviceid.innerHTML = obj.deviceId;
 
 
-      var jobid = document.getElementById("currentjobid");
-      jobid.innerHTML= obj.jobId;
+            var jobid = document.getElementById("currentjobid");
+            jobid.innerHTML= obj.jobId;
 
-      var currentdevicestatus = document.getElementById("currentdevicestatus");
-      currentdevicestatus.innerHTML  = "&#9989;"
+            var currentdevicestatus = document.getElementById("currentdevicestatus");
+            currentdevicestatus.innerHTML  = "&#9989;"
 
-      var lastmsgreceived = document.getElementById("lastmsgreceived");
-      lastmsgreceived.innerHTML = obj.time;
+            var lastmsgreceived = document.getElementById("lastmsgreceived");
+            lastmsgreceived.innerHTML = obj.time;
 
 
-      timeData.push(obj.time);
-      pressureData.push(obj.pressure);
+            timeData.push(obj.time);
+            pressureData.push(obj.pressure);
 
-      const maxLen = 50;
-      var len = timeData.length;
+            const maxLen = 50;
+            var len = timeData.length;
 
-      if (len > maxLen) {
-        timeData.shift();
-        pressureData.shift();
-      }
+            if (len > maxLen) {
+              timeData.shift();
+              pressureData.shift();
+            }
 
-      if (obj.flowrate) {
-        flowrateData.push(obj.flowrate);
-      }
-      if (flowrateData.length > maxLen) {
-        flowrateData.shift();
-      }
+            if (obj.flowrate) {
+              flowrateData.push(obj.flowrate);
+            }
+            if (flowrateData.length > maxLen) {
+              flowrateData.shift();
+            }
 
-      PressureLineChart.update();
-      FlowrateLineChart.update();
-    //  HistoricalLineChart.update();
-    } catch (err) {
+            PressureLineChart.update();
+            FlowrateLineChart.update();
+          //  HistoricalLineChart.update();
+        }
+
+    }
+
+    catch (err) {
       console.error(err);
-    }*/
+    }
+
   }
 });
 

@@ -103,6 +103,7 @@ wss.on('connection', function connection(ws) {
                           itemsProcessed++;
                             if(itemsProcessed === 6) {
                               //callback();
+                              rowObject["from"] = "db"
                               client.send(JSON.stringify(rowObject))
                             }
 
