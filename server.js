@@ -142,7 +142,11 @@ wss.on('connection', function connection(ws) {
                             //console.log(rowCount + ' rows returned');
                               //console.log(rows) // this is the full array of row objects
                               console.log(jsonArray)
-                              writer.write(jsonArray);
+                              for (var i = 0; i < jsonArray.length; i++) {
+
+                                writer.write(jsonArray[i]);
+
+                              }
                               writer.end()
                       });
 
