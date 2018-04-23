@@ -217,6 +217,7 @@ ws = new WebSocket('wss://' + location.host);
 
 
     try {
+
       var obj = JSON.parse(message.data);
 
       if( obj.hasOwnProperty('from')){

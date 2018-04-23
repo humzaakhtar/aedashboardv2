@@ -9,11 +9,20 @@ var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 //npm install tedious
 //npm install async
+
+
+//var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
+//res.download(file); // Set disposition and send it.
+
+var fs = require('fs');
+var stream = fs.createWriteStream("historical_data.csv");
+
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 var rowObject = {};
+var csvheader = 0;
 
 app.use(function(req, res /*, next*/ ) {
   res.redirect('/');
@@ -105,6 +114,17 @@ wss.on('connection', function connection(ws) {
                               //callback();
                               rowObject["from"] = "db"
                               client.send(JSON.stringify(rowObject))
+                              if(csvheader == 0){
+                                csvheader++;
+                                var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time"]});
+                            }
+                            else{
+                                var writer = csvWriter({sendHeaders: false})
+                            }
+
+                              writer.pipe(stream)
+                              writer.write(JSON.parse(rowObject));
+                              writer.end()
                             }
 
                         });
