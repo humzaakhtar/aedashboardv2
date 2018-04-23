@@ -108,12 +108,7 @@ wss.on('connection', function connection(ws) {
                         }
                       );
 
-                    request.on('done', function (rowCount, more, rows) {
-                      console.log("done");
-                    //  writer.write(jsonArray);
-                    //  writer.end()
 
-                     });
 
                     request.on('row', function(columns) {
                         rowObject = {};
@@ -141,6 +136,16 @@ wss.on('connection', function connection(ws) {
                         });
 
                       });
+
+
+                      request.on('doneProc', function (rowCount, more, returnStatus, rows) {
+                            //console.log(rowCount + ' rows returned');
+                              //console.log(rows) // this is the full array of row objects
+                              console.log(jsonArray)
+                              writer.write(jsonArray);
+                              writer.end()
+                      });
+
 
                     //  setInterval(function(){ client.send(JSON.stringify(rowObject)) },2000);
 
