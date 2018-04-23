@@ -197,7 +197,7 @@ ws = new WebSocket('wss://' + location.host);
 
   ws.onmessage = function(message) {
   //  message = JSON.stringify(message);
-    console.log('receive message' + message);
+    console.log('receive message' + message.data);
   //  console.log('receive message' + message.data);
 
   /*  if (message.data == '__pong__') {
