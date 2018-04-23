@@ -119,6 +119,7 @@ Historicaldataarray = {
 
 
 
+
 HistoricalDataOption = {
     scales: {
       yAxes: [{
@@ -127,7 +128,15 @@ HistoricalDataOption = {
           labelString: 'Pressure and Flowrate',
           fontSize: 10
         }
+      }],
+      xAxes: [{
+          type: 'time',
+          ticks: {
+              autoSkip: true,
+              maxTicksLimit: 6
+          }
       }]
+
     }
   };
 
@@ -219,12 +228,11 @@ ws = new WebSocket('wss://' + location.host);
               }
 
 
-
               historicaltimeData.push(obj.time);
               historicalpressureData.push(obj.pressure);
 
-              const maxLen = 50;
-              var len = timeData.length;
+              const maxLen = 30;
+              var len = historicaltimeData.length;
 
               if (len > maxLen) {
                 historicaltimeData.shift();
@@ -270,7 +278,7 @@ else{
             timeData.push(obj.time);
             pressureData.push(obj.pressure);
 
-            const maxLen = 50;
+            const maxLen = 20;
             var len = timeData.length;
 
             if (len > maxLen) {
