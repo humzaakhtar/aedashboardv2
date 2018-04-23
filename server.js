@@ -96,15 +96,21 @@ wss.on('connection', function connection(ws) {
                       );
                     request.on('row', function(columns) {
                         rowObject = {};
+                        var itemsProcessed = 0;
                         columns.forEach(function(column) {
                           rowObject[column.metadata.colName] = column.value;
                           console.log(rowObject);
+                          itemsProcessed++;
+                            if(itemsProcessed === 6) {
+                              //callback();
+                              client.send(JSON.stringify(rowObject))
+                            }
 
                         });
                         jsonArray.push(rowObject)
                       });
 
-                      setInterval(function(){ client.send(JSON.stringify(rowObject)) },2000);
+                    //  setInterval(function(){ client.send(JSON.stringify(rowObject)) },2000);
 
                       connectionsql.execSql(request);
                     }
