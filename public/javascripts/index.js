@@ -128,13 +128,6 @@ HistoricalDataOption = {
           labelString: 'Pressure and Flowrate',
           fontSize: 10
         }
-      }],
-      xAxes: [{
-          type: 'time',
-          ticks: {
-              autoSkip: true,
-              maxTicksLimit: 6
-          }
       }]
 
     }
@@ -222,7 +215,7 @@ ws = new WebSocket('wss://' + location.host);
 
       if( obj.hasOwnProperty('from')){
 
-              if (!obj.time || !obj.pressure) {
+          /*    if (!obj.time || !obj.pressure) {
                 console.log("No data coming");
                 return;
 
@@ -247,7 +240,7 @@ ws = new WebSocket('wss://' + location.host);
                 historicalflowrateData.shift();
               }
 
-            //  HistoricalLineChart.update();
+            //  HistoricalLineChart.update();*/
 
 
       }
@@ -307,7 +300,7 @@ else{
 
   }
 
-  
+
 });
 
 
