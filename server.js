@@ -9,8 +9,10 @@ var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 //npm install tedious
 //npm install async
-var csvWriter = require('csv-write-stream')
-var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time","from"]});
+//var csvWriter = require('csv-write-stream')
+var fs = require('fs');
+
+//var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time","from"]});
 
 
 //var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
@@ -142,12 +144,21 @@ wss.on('connection', function connection(ws) {
                             //console.log(rowCount + ' rows returned');
                               //console.log(rows) // this is the full array of row objects
                               console.log(jsonArray)
-                              for (var i = 0; i < jsonArray.length; i++) {
+
+                              fs.writeFile("his_data", jsonArray, function(err) {
+                                  if(err) {
+                                    return console.log(err);
+                                  }
+
+                                  console.log("The file was saved!");
+                                });
+
+                            /*  for (var i = 0; i < jsonArray.length; i++) {
                                 writer.pipe(fs.createWriteStream("historical_data1.csv", {flags: 'a'}));
                                 writer.write(jsonArray[i]);
 
                               }
-                                writer.end();
+                                writer.end();*/
                       });
 
 
