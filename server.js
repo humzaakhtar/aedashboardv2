@@ -53,7 +53,7 @@ function isJson(str) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-    //  ws.send("finally");
+    ws.send("finally");
     if (isJson(msg)) {
 
 
