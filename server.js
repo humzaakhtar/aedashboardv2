@@ -93,7 +93,7 @@ wss.on('connection', function connection(ws) {
                   var connectionsql = new Connection(config);
                   // Attempt to connect and execute queries if connection goes through
                   connectionsql.on('connect', function(err) {
-                    jsonArray = {}
+                    jsonArray = []
                     if (err) {
                       console.log(err)
                     } else {
