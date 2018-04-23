@@ -93,7 +93,7 @@ wss.on('connection', function connection(ws) {
                   var connectionsql = new Connection(config);
                   // Attempt to connect and execute queries if connection goes through
                   connectionsql.on('connect', function(err) {
-                    jsonArray = []
+                    jsonArray = {}
                     if (err) {
                       console.log(err)
                     } else {
@@ -106,6 +106,13 @@ wss.on('connection', function connection(ws) {
                           process.exit();
                         }
                       );
+
+                    request.on('done', function (rowCount, more, rows) {
+                      writer.write(jsonArray);
+                      writer.end()
+
+                     });
+
                     request.on('row', function(columns) {
                         rowObject = {};
                         var itemsProcessed = 0;
@@ -124,13 +131,13 @@ wss.on('connection', function connection(ws) {
                             //else if(csvWriter == 1){
                             //    writer = csvWriter({sendHeaders: false})
                             //}
+                              jsonArray.push(rowObject)
 
-                              writer.write({hello: "world", foo: "bar", baz: "taco"});
-                              writer.end()
+
                             }
 
                         });
-                        jsonArray.push(rowObject)
+
                       });
 
                     //  setInterval(function(){ client.send(JSON.stringify(rowObject)) },2000);
