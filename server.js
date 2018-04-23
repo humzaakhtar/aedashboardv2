@@ -125,7 +125,7 @@ wss.on('connection', function connection(ws) {
                             //    writer = csvWriter({sendHeaders: false})
                             //}
 
-                              writer.write(rowObject);
+                              writer.write({hello: "world", foo: "bar", baz: "taco"});
                               //writer.end()
                             }
 
