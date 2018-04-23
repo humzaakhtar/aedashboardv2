@@ -56,7 +56,7 @@ wss.on('connection', function connection(ws) {
     ws.send("finally");
     if (isJson(msg)) {
 
-
+      msg = JSON.parse(msg);
       if (msg.hasOwnProperty('jobid')) {
 
         console.log('message: ' + msg);
