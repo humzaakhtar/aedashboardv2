@@ -143,11 +143,11 @@ wss.on('connection', function connection(ws) {
                               //console.log(rows) // this is the full array of row objects
                               console.log(jsonArray)
                               for (var i = 0; i < jsonArray.length; i++) {
-
+                                writer.pipe(fs.createWriteStream("historical_data.csv", {flags: 'a'}));
                                 writer.write(jsonArray[i]);
-
+                                writer.end();
                               }
-                              writer.end()
+
                       });
 
 
