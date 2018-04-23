@@ -54,12 +54,14 @@ function isJson(str) {
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
     //  ws.send("finally");
-/*if(isJson(msg)){
+if(isJson(msg)){
+
+
     if (msg.hasOwnProperty('jobid')) {
 
       console.log('message: ' + msg);
 
-
+/*
       // Create connection to database
       var config = {
         userName: 'akhtarh', // update me
@@ -102,11 +104,11 @@ wss.on('connection', function connection(ws) {
           connectionsql.execSql(request);
           ws.send(jsonArray);
         }
-      });
+      });*/
 
         }
 
-    }*/
+    }
 
   });
 
