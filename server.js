@@ -10,7 +10,7 @@ var Request = require('tedious').Request;
 //npm install tedious
 //npm install async
 //var csvWriter = require('csv-write-stream')
-var fs = require('fs');
+var fs = require('file-system');
 
 //var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time","from"]});
 
@@ -145,7 +145,7 @@ wss.on('connection', function connection(ws) {
                               //console.log(rows) // this is the full array of row objects
                               console.log(jsonArray)
 
-                              fs.writeFile("his_data", jsonArray, function(err) {
+                              fs.writeFile("his_data.txt", jsonArray.toString(), function(err) {
                                   if(err) {
                                     return console.log(err);
                                   }
