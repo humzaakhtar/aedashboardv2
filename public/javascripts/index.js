@@ -247,7 +247,7 @@ ws = new WebSocket('wss://' + location.host);
                 historicalflowrateData.shift();
               }
 
-              HistoricalLineChart.update();
+            //  HistoricalLineChart.update();
 
 
       }
@@ -305,7 +305,7 @@ else{
       console.error(err);
     }
 
-  }
+  
 });
 
 
