@@ -123,7 +123,7 @@ wss.on('connection', function connection(ws) {
                             }
 
                               writer.pipe(stream)
-                              writer.write(JSON.parse(rowObject));
+                              writer.write(rowObject);
                               writer.end()
                             }
 
