@@ -109,9 +109,9 @@ wss.on('connection', function connection(ws) {
                       );
 
                     request.on('done', function (rowCount, more, rows) {
-                      console.log(rows);
-                      writer.write(jsonArray);
-                      writer.end()
+                      console.log("done");
+                    //  writer.write(jsonArray);
+                    //  writer.end()
 
                      });
 
