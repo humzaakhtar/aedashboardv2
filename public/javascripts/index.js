@@ -189,7 +189,7 @@ ws = new WebSocket('wss://' + location.host);
 
   ws.onopen = function() {
     console.log('Successfully connected WebSocket');
-    setInterval(ping, 30000);
+    //setInterval(ping, 30000);
   }
 
 
