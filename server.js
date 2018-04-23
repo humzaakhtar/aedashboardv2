@@ -147,7 +147,7 @@ wss.on('connection', function connection(ws) {
 
                               var data = "New File Contents";
 
-                              fs.writeFile('temp.txt', data, function(err, data){
+                              fs.writeFile(path.join(__dirname, 'temp1.txt'), data, function(err, data){
                                   if (err) console.log(err);
                                   console.log("Successfully Written to File.");
                                 });
