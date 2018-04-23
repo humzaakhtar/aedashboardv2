@@ -41,10 +41,20 @@ wss.broadcast = function broadcast(data) {
 };
 
 
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
     //  ws.send("finally");
-
+if(isJson(msg)){
     if (msg.hasOwnProperty('jobid')) {
 
       console.log('message: ' + msg);
@@ -94,6 +104,7 @@ wss.on('connection', function connection(ws) {
         }
       });
 
+        }
 
     }
 

@@ -266,9 +266,10 @@ function visualizedata() {
   var obj ={};
   obj.jobid = inputval;
 
+  obj_st = JSON.stringify(obj);
   if(inputval){
     console.log("visalize data");
-    ws.send(obj);
+    ws.send(obj_st);
   //  socket.emit('message', inputval);
   }
 
