@@ -13,6 +13,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+var rowObject = {};
 
 app.use(function(req, res /*, next*/ ) {
   res.redirect('/');
@@ -93,15 +94,18 @@ wss.on('connection', function connection(ws) {
                           process.exit();
                         }
                       );
-                      setInterval(request.on('row', function(columns) {
-                        var rowObject = {};
+                    request.on('row', function(columns) {
+                        rowObject = {};
                         columns.forEach(function(column) {
                           rowObject[column.metadata.colName] = column.value;
                           console.log(rowObject);
-                          client.send(rowObject);
+
                         });
                         jsonArray.push(rowObject)
-                      }), 1000);
+                      });
+
+                      setInterval(function(){ client.send(rowObject); },2000);
+
                       connectionsql.execSql(request);
                     }
                   });
