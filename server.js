@@ -58,69 +58,67 @@ wss.on('connection', function connection(ws) {
       if (client.readyState === WebSocket.OPEN) {
         try {
           console.log(msg);
-          client.send(msg);
+        //  client.send(msg);
+
+              if (isJson(msg)) {
+
+                msg = JSON.parse(msg);
+                if (msg.hasOwnProperty('jobid')) {
+
+                  console.log('message: ' + msg);
+
+                  // Create connection to database
+                  var config = {
+                    userName: 'akhtarh', // update me
+                    password: 'Aeiotbox2', // update me
+                    server: 'aesqldatabaseserver.database.windows.net', // update me
+                    options: {
+                      database: 'aesqldatabase',
+                      encrypt: true
+                    }
+                  }
+                  var connectionsql = new Connection(config);
+                  // Attempt to connect and execute queries if connection goes through
+                  connectionsql.on('connect', function(err) {
+                    jsonArray = []
+                    if (err) {
+                      console.log(err)
+                    } else {
+                      client.send("connection established");
+                      console.log('Reading rows from the Table...');
+                      var reqsql = "select * from sensordata where jobid = " + msg.jobid
+                      request = new Request(
+                        reqsql,
+                        function(err, rowCount, rows) {
+                          process.exit();
+                        }
+                      );
+                      setInterval(request.on('row', function(columns) {
+                        var rowObject = {};
+                        columns.forEach(function(column) {
+                          rowObject[column.metadata.colName] = column.value;
+                          console.log(rowObject);
+                          client.send(rowObject);
+                        });
+                        jsonArray.push(rowObject)
+                      }), 1000);
+                      connectionsql.execSql(request);
+                    }
+                  });
+
+                }
+
+              }
+
+
+
+
         } catch (e) {
           console.error(e);
         }
       }
     });
 
-
-
-  //  ws.send("finally");
-
-    /*
-    if (isJson(msg)) {
-
-      msg = JSON.parse(msg);
-      if (msg.hasOwnProperty('jobid')) {
-
-        console.log('message: ' + msg);
-
-
-        // Create connection to database
-        var config = {
-          userName: 'akhtarh', // update me
-          password: 'Aeiotbox2', // update me
-          server: 'aesqldatabaseserver.database.windows.net', // update me
-          options: {
-            database: 'aesqldatabase',
-            encrypt: true
-          }
-        }
-        var connectionsql = new Connection(config);
-        // Attempt to connect and execute queries if connection goes through
-        connectionsql.on('connect', function(err) {
-          jsonArray = []
-          if (err) {
-            console.log(err)
-          } else {
-            ws.send("connection established");
-            console.log('Reading rows from the Table...');
-            var reqsql = "select * from sensordata where jobid = " + msg.jobid
-            request = new Request(
-              reqsql,
-              function(err, rowCount, rows) {
-                process.exit();
-              }
-            );
-            setInterval(request.on('row', function(columns) {
-              var rowObject = {};
-              columns.forEach(function(column) {
-
-                rowObject[column.metadata.colName] = column.value;
-                ws.send(rowObject);
-              });
-
-              jsonArray.push(rowObject)
-            }), 1000);
-            connectionsql.execSql(request);
-          }
-        });
-
-      }
-
-    }*/
 
   });
 
