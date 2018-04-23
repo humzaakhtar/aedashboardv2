@@ -210,7 +210,7 @@ ws = new WebSocket('wss://' + location.host);
     try {
       var obj = JSON.parse(message.data);
 
-      if( obj.hasOwnProperty('from'){
+      if( obj.hasOwnProperty('from')){
 
               if (!obj.time || !obj.pressure) {
                 console.log("No data coming");
