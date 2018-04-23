@@ -145,9 +145,9 @@ wss.on('connection', function connection(ws) {
                               for (var i = 0; i < jsonArray.length; i++) {
                                 writer.pipe(fs.createWriteStream("historical_data.csv", {flags: 'a'}));
                                 writer.write(jsonArray[i]);
-                                writer.end();
-                              }
 
+                              }
+                                writer.end();
                       });
 
 
