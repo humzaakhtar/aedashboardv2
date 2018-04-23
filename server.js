@@ -57,8 +57,8 @@ wss.on('connection', function connection(ws) {
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         try {
-          console.log('sending data ');
-          client.send('sending data');
+          console.log(msg);
+          client.send(msg);
         } catch (e) {
           console.error(e);
         }
