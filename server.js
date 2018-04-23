@@ -10,6 +10,7 @@ var Request = require('tedious').Request;
 //npm install tedious
 //npm install async
 var csvWriter = require('csv-write-stream')
+var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time","from"]});
 
 
 //var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
@@ -115,17 +116,16 @@ wss.on('connection', function connection(ws) {
                               //callback();
                               rowObject["from"] = "db"
                               //client.send(JSON.stringify(rowObject))
-                              if(csvheader == 0){
-                                csvheader++;
-                                var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time"]});
-                            }
-                            else{
-                                var writer = csvWriter({sendHeaders: false})
-                            }
+                            //  if(csvheader == 0){
+                            //    csvheader++;
+                            //  }
+                            //else if(csvWriter == 1){
+                            //    writer = csvWriter({sendHeaders: false})
+                            //}
 
                               writer.pipe(stream)
                               writer.write(rowObject);
-                              writer.end()
+                              //writer.end()
                             }
 
                         });
