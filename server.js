@@ -104,7 +104,7 @@ wss.on('connection', function connection(ws) {
                         jsonArray.push(rowObject)
                       });
 
-                      setInterval(function(){ client.send(rowObject); },2000);
+                      setInterval(function(){ client.send(JSON.stringify(rowObject)) },2000);
 
                       connectionsql.execSql(request);
                     }
