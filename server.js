@@ -61,7 +61,7 @@ if(isJson(msg)){
 
       console.log('message: ' + msg);
 
-/*
+
       // Create connection to database
       var config = {
         userName: 'akhtarh', // update me
@@ -82,7 +82,7 @@ if(isJson(msg)){
           console.log(err)
         } else {
           console.log('Reading rows from the Table...');
-          var reqsql = "select * from sensordata where jobid = " + msg.
+          var reqsql = "select * from sensordata where jobid = " + msg.jobid
           // Read all rows from table
           request = new Request(
             reqsql,
@@ -95,16 +95,16 @@ if(isJson(msg)){
           request.on('row', function(columns) {
             var rowObject = {};
             columns.forEach(function(column) {
-              //ws.send("%s\t%s", column.metadata.colName, column.value);
+
               rowObject[column.metadata.colName] = column.value;
             });
             //  ws.send(rowObject);
             jsonArray.push(rowObject)
           });
           connectionsql.execSql(request);
-          ws.send(jsonArray);
+        //  ws.send(jsonArray);
         }
-      });*/
+      });
 
         }
 
