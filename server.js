@@ -53,7 +53,21 @@ function isJson(str) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-    ws.send("finally");
+
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        try {
+          console.log('sending data ' + msg);
+          client.send(msg);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    });
+
+
+
+  //  ws.send("finally");
 
     /*
     if (isJson(msg)) {
