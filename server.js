@@ -65,6 +65,7 @@ function isJson(str) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
+    writer.pipe(stream)
 
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -110,11 +111,12 @@ wss.on('connection', function connection(ws) {
                         var itemsProcessed = 0;
                         columns.forEach(function(column) {
                           rowObject[column.metadata.colName] = column.value;
-                          console.log(rowObject);
                           itemsProcessed++;
                             if(itemsProcessed === 6) {
                               //callback();
                               rowObject["from"] = "db"
+                              console.log(rowObject);
+
                               //client.send(JSON.stringify(rowObject))
                             //  if(csvheader == 0){
                             //    csvheader++;
@@ -123,7 +125,6 @@ wss.on('connection', function connection(ws) {
                             //    writer = csvWriter({sendHeaders: false})
                             //}
 
-                              writer.pipe(stream)
                               writer.write(rowObject);
                               //writer.end()
                             }
