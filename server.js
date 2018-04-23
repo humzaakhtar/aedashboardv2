@@ -87,7 +87,8 @@ wss.on('connection', function connection(ws) {
                     server: 'aesqldatabaseserver.database.windows.net', // update me
                     options: {
                       database: 'aesqldatabase',
-                      encrypt: true
+                      encrypt: true,
+                      rowCollectionOnDone:true
                     }
                   }
                   var connectionsql = new Connection(config);
@@ -108,6 +109,7 @@ wss.on('connection', function connection(ws) {
                       );
 
                     request.on('done', function (rowCount, more, rows) {
+                      console.log(rows);
                       writer.write(jsonArray);
                       writer.end()
 
@@ -122,7 +124,7 @@ wss.on('connection', function connection(ws) {
                             if(itemsProcessed === 6) {
                               //callback();
                               rowObject["from"] = "db"
-                              console.log(rowObject);
+                              //console.log(rowObject);
 
                               //client.send(JSON.stringify(rowObject))
                             //  if(csvheader == 0){
