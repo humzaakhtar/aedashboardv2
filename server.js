@@ -42,70 +42,66 @@ wss.broadcast = function broadcast(data) {
 
 
 function isJson(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 }
 
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
     //  ws.send("finally");
-if(isJson(msg)){
+    if (isJson(msg)) {
 
 
-    if (msg.hasOwnProperty('jobid')) {
+      if (msg.hasOwnProperty('jobid')) {
 
-      console.log('message: ' + msg);
+        console.log('message: ' + msg);
 
 
-      // Create connection to database
-      var config = {
-        userName: 'akhtarh', // update me
-        password: 'Aeiotbox2', // update me
-        server: 'aesqldatabaseserver.database.windows.net', // update me
-        options: {
-          database: 'aesqldatabase',
-          encrypt: true
+        // Create connection to database
+        var config = {
+          userName: 'akhtarh', // update me
+          password: 'Aeiotbox2', // update me
+          server: 'aesqldatabaseserver.database.windows.net', // update me
+          options: {
+            database: 'aesqldatabase',
+            encrypt: true
+          }
         }
+        var connectionsql = new Connection(config);
+        // Attempt to connect and execute queries if connection goes through
+        connectionsql.on('connect', function(err) {
+          jsonArray = []
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('Reading rows from the Table...');
+            var reqsql = "select * from sensordata where jobid = " + msg.jobid
+            request = new Request(
+              reqsql,
+              function(err, rowCount, rows) {
+                process.exit();
+              }
+            );
+            setInterval(request.on('row', function(columns) {
+              var rowObject = {};
+              columns.forEach(function(column) {
+
+                rowObject[column.metadata.colName] = column.value;
+                ws.send(rowObject);
+              });
+
+              jsonArray.push(rowObject)
+            }), 1000);
+            connectionsql.execSql(request);
+          }
+        });
+
       }
-      var connectionsql = new Connection(config);
-      // Attempt to connect and execute queries if connection goes through
-      connectionsql.on('connect', function(err) {
-        jsonArray = []
-
-        if (err) {
-          console.log(err)
-        } else {
-          console.log('Reading rows from the Table...');
-          var reqsql = "select * from sensordata where jobid = " + msg.jobid
-          // Read all rows from table
-          request = new Request(
-            reqsql,
-            function(err, rowCount, rows) {
-              //ws.send(rowCount + ' row(s) returned');
-              process.exit();
-            }
-          );
-
-          setInterval(request.on('row', function(columns) {
-            var rowObject = {};
-            columns.forEach(function(column) {
-
-              rowObject[column.metadata.colName] = column.value;
-            });
-             ws.send(rowObject);
-            jsonArray.push(rowObject)
-          }), 1000);
-          connectionsql.execSql(request);
-        //  ws.send(jsonArray);
-        }
-      });
-
-        }
 
     }
 
