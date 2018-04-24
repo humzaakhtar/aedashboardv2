@@ -37,8 +37,9 @@ app.use("/", router);
 
 router.get('/download', function(req, res) {
   console.log("hello1");
+  console.log(__dirname);
 
-  res.download(__dirname + 'sensordata.txt', 'sensordata.txt');
+  res.download(__dirname + '/sensordata.txt', 'sensordata.txt');
 });
 
 
