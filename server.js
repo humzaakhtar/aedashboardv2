@@ -28,6 +28,7 @@ router.use(function(req, res, next) {
 
 // main page route
 router.get('/download', function(req, res) {
+  console.log("hello");
   res.download('/','sensordata.txt');
 });
 
