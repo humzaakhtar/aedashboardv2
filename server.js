@@ -30,11 +30,16 @@ app.use("/", router);
 
 
 // main page route
-router.get('/download', function(req, res) {
-  console.log("hello");
+/*router.get('/download', function(req, res) {
   res.download('/','sensordata.txt');
 });
+*/
 
+router.get('/download', function(req, res) {
+  console.log("hello1");
+
+  res.download(__dirname + 'sensordata.txt', 'sensordata.txt');
+});
 
 
 const server = http.createServer(app);
