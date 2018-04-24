@@ -15,9 +15,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 var rowObject = {};
 var csvheader = 0;
 
-app.use(function(req, res /*, next*/ ) {
-  res.redirect('/');
-});
+//app.use(function(req, res /*, next*/ ) {
+//  res.redirect('/');
+//});
 
 
 // stop receiving data and close ampq connection
