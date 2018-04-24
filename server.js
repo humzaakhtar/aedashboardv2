@@ -151,7 +151,11 @@ wss.on('connection', function connection(ws) {
                             //console.log(rowCount + ' rows returned');
                               //console.log(rows) // this is the full array of row objects
                             //  console.log(jsonArray)
-
+                            var jsonArrayString = jsonArray.toString();
+                            fs.writeFile('temp1.txt', jsonArrayString, function(err, data){
+                                if (err) console.log(err);
+                                console.log("Successfully Written to File. 2");
+                              });
 
 
                             /*  for (var i = 0; i < jsonArray.length; i++) {
