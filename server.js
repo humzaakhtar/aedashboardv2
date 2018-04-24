@@ -148,9 +148,7 @@ wss.on('connection', function connection(ws) {
 
 
                       request.on('doneProc', function (rowCount, more, returnStatus, rows) {
-                            //console.log(rowCount + ' rows returned');
-                              //console.log(rows) // this is the full array of row objects
-                            //  console.log(jsonArray)
+                            console.log("all rows downloaded")
                             var jsonArrayString = jsonArray.toString();
                             fs.writeFile('temp1.txt', jsonArrayString, function(err, data){
                                 if (err) console.log(err);
@@ -158,12 +156,6 @@ wss.on('connection', function connection(ws) {
                               });
 
 
-                            /*  for (var i = 0; i < jsonArray.length; i++) {
-                                writer.pipe(fs.createWriteStream("historical_data1.csv", {flags: 'a'}));
-                                writer.write(jsonArray[i]);
-
-                              }
-                                writer.end();*/
                       });
 
 
