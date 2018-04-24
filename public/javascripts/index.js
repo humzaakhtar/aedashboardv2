@@ -307,6 +307,10 @@ else{
 
 function visualizedata() {
 
+  document.getElementById("visbtn").innerHTML='Preparing for Download';
+
+
+
   //socket = io();
 
   var inputval = document.getElementsByName("oldjobid")[0].value;
@@ -333,11 +337,13 @@ function visualizedata() {
 
 function downloaddata() {
     //console.log("download data");
+   document.getElementById("visbtn").style.display='block';
+   document.getElementById("dldbtn").style.display='none';
+   document.getElementById("visbtn").innerHTML='Download';
 
-  //  window.open("http://aedashboardv3.azurewebsites.net/download")
 
-   $.ajax({
-      type: 'GET',
-      url: '/download'
-    });
+
+   window.open("http://aedashboardv3.azurewebsites.net/download")
+
+
 }
