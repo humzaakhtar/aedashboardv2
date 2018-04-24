@@ -212,6 +212,7 @@ ws = new WebSocket('wss://' + location.host);
       document.getElementById("visbtn").style.display='none';
       document.getElementById("dldbtn").style.display='block';
       document.getElementById("ldng").style.display='none';
+
     }
     else{
 
@@ -272,7 +273,6 @@ ws = new WebSocket('wss://' + location.host);
     catch (err) {
       console.error(err);
     }
-  }
 
   }
 
