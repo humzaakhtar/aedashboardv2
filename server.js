@@ -8,6 +8,7 @@ const iotHubClient = require('./IoTHub/iot-hub.js');
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 var fs = require('fs');
+var router = express.Router();
 const app = express();
 
 
@@ -20,10 +21,16 @@ var csvheader = 0;
 //});
 
 
-// stop receiving data and close ampq connection
-app.get('/download', function(req, res) {
+router.use(function(req, res, next) {
+  console.log("/" + req.method);
+  next();
+});
+
+// main page route
+router.get('/download', function(req, res) {
   res.download('/','sensordata.txt');
 });
+
 
 
 const server = http.createServer(app);
