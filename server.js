@@ -29,16 +29,7 @@ router.use(function(req, res, next) {
 app.use("/", router);
 
 
-// main page route
-/*router.get('/download', function(req, res) {
-  res.download('/','sensordata.txt');
-});
-*/
-
 router.get('/download', function(req, res) {
-  console.log("hello1");
-  console.log(__dirname);
-
   res.download(__dirname + '/sensordata.txt', 'sensordata.txt');
 });
 

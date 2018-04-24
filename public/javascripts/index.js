@@ -334,13 +334,10 @@ function visualizedata() {
 function downloaddata() {
     //console.log("download data");
 
-    window.open("http://aedashboardv3.azurewebsites.net/download")
+  //  window.open("http://aedashboardv3.azurewebsites.net/download")
 
-  /*  $.ajax({
+   $.ajax({
       type: 'GET',
-      url: '/download',
-      success: function(data) {
-        console.log(data);
-      }
-    });*/
+      url: '/download'
+    });
 }
