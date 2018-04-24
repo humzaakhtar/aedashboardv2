@@ -22,7 +22,7 @@ app.use(function(req, res /*, next*/ ) {
 
 // stop receiving data and close ampq connection
 app.get('/download', function(req, res) {
-  res.download('sensordata.txt');
+  res.download('/','sensordata.txt');
 });
 
 
