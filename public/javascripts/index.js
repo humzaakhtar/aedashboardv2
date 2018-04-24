@@ -333,11 +333,14 @@ function visualizedata() {
 
 function downloaddata() {
     //console.log("download data");
-    $.ajax({
+
+    window.open("http://aedashboardv3.azurewebsites.net/download")
+
+  /*  $.ajax({
       type: 'GET',
       url: '/download',
       success: function(data) {
         console.log(data);
       }
-    });
+    });*/
 }
