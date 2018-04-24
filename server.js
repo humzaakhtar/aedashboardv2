@@ -108,7 +108,7 @@ wss.on('connection', function connection(ws) {
 
                     /*this does not*/
                     var data = "New File Contents";
-                    fs.writeFileSync('temp2.txt', data);
+                    fs.writeFileSync('temp2.txt', jsonArray.toString());
 
                   });
                   connectionsql.execSql(request);
