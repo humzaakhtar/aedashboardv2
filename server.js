@@ -145,9 +145,9 @@ wss.on('connection', function connection(ws) {
                               //console.log(rows) // this is the full array of row objects
                               console.log(jsonArray)
 
-                              var data = "New File Contents";
 
-                              fs.writeFile(path.join(__dirname, 'temp1.txt'), data, function(err, data){
+
+                              fs.writeFile(path.join(__dirname, 'temp1.txt'), jsonArray, function(err, data){
                                   if (err) console.log(err);
                                   console.log("Successfully Written to File.");
                                 });
