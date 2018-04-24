@@ -7,24 +7,11 @@ var sql = require('mssql');
 const iotHubClient = require('./IoTHub/iot-hub.js');
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
-//npm install tedious
-//npm install async
-//var csvWriter = require('csv-write-stream')
-//var fs = require('file-system');
-
-//var writer = csvWriter({ headers: ["messageid", "jobid","deviceid","pressure","flowrate","time","from"]});
-
-
-//var file = __dirname + '/upload-folder/dramaticpenguin.MOV';
-//res.download(file); // Set disposition and send it.
-
 var fs = require('fs');
-//var stream = fs.createWriteStream("historical_data.csv");
-
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.static(path.join(__dirname, 'public')));
 var rowObject = {};
 var csvheader = 0;
 
@@ -37,8 +24,6 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({
   server
 });
-
-
 
 // Broadcast to all.
 wss.broadcast = function broadcast(data) {
@@ -54,7 +39,6 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-
 function isJson(str) {
   try {
     JSON.parse(str);
@@ -67,123 +51,80 @@ function isJson(str) {
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
-    //writer.pipe(stream)
-    var data = "New File Contents";
 
-    fs.writeFile('temp1.txt', data, function(err, data){
-        if (err) console.log(err);
-        console.log("Successfully Written to File.");
-      });
+    /* this works */
+    var data = "New File Contents";
+    fs.writeFile('temp1.txt', data, function(err, data) {
+      if (err) console.log(err);
+      console.log("Successfully Written to File.");
+    });
 
 
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         try {
-          console.log(msg);
-        //  client.send(msg);
-
-              if (isJson(msg)) {
-
-                msg = JSON.parse(msg);
-                if (msg.hasOwnProperty('jobid')) {
-
-                  console.log('message: ' + msg);
-
-                  // Create connection to database
-                  var config = {
-                    userName: 'akhtarh', // update me
-                    password: 'Aeiotbox2', // update me
-                    server: 'aesqldatabaseserver.database.windows.net', // update me
-                    options: {
-                      database: 'aesqldatabase',
-                      encrypt: true,
-                      rowCollectionOnDone:true
-                    }
-                  }
-                  var connectionsql = new Connection(config);
-                  // Attempt to connect and execute queries if connection goes through
-                  connectionsql.on('connect', function(err) {
-                    jsonArray = []
-                    if (err) {
-                      console.log(err)
-                    } else {
-                    //  client.send("connection established");
-                      console.log('Reading rows from the Table...');
-                      var reqsql = "select * from sensordata where jobid = " + msg.jobid
-                      request = new Request(
-                        reqsql,
-                        function(err, rowCount, rows) {
-                          process.exit();
-                        }
-                      );
-
-
-
-                    request.on('row', function(columns) {
-                        rowObject = {};
-                        var itemsProcessed = 0;
-                        columns.forEach(function(column) {
-                          rowObject[column.metadata.colName] = column.value;
-                          itemsProcessed++;
-                            if(itemsProcessed === 6) {
-                              //callback();
-                              rowObject["from"] = "db"
-                              //console.log(rowObject);
-
-                              //client.send(JSON.stringify(rowObject))
-                            //  if(csvheader == 0){
-                            //    csvheader++;
-                            //  }
-                            //else if(csvWriter == 1){
-                            //    writer = csvWriter({sendHeaders: false})
-                            //}
-                              jsonArray.push(rowObject)
-
-
-                            }
-
-                        });
-
-                      });
-
-
-                      request.on('doneProc', function (rowCount, more, returnStatus, rows) {
-                            console.log("all rows downloaded")
-
-                              var data = "New File Contents";
-
-                              fs.writeFile('temp2.txt', data, function(err, data){
-                                  if (err) console.log(err);
-                                  console.log("Successfully Written to File. 2");
-                                });
-
-
-                      });
-
-
-                    //  setInterval(function(){ client.send(JSON.stringify(rowObject)) },2000);
-
-                      connectionsql.execSql(request);
-                    }
-                  });
-
+          if (isJson(msg)) {
+            msg = JSON.parse(msg);
+            if (msg.hasOwnProperty('jobid')) {
+              console.log('message: ' + msg);
+              var config = {
+                userName: 'akhtarh',
+                password: 'Aeiotbox2',
+                server: 'aesqldatabaseserver.database.windows.net',
+                options: {
+                  database: 'aesqldatabase',
+                  encrypt: true,
+                  rowCollectionOnDone: true
                 }
-
               }
+              var connectionsql = new Connection(config);
+              connectionsql.on('connect', function(err) {
+                jsonArray = []
+                if (err) {
+                  console.log(err)
+                } else {
+                  console.log('Reading rows from the Table...');
+                  var reqsql = "select * from sensordata where jobid = " + msg.jobid
+                  request = new Request(
+                    reqsql,
+                    function(err, rowCount, rows) {
+                      process.exit();
+                    }
+                  );
+                  request.on('row', function(columns) {
+                    rowObject = {};
+                    var itemsProcessed = 0;
+                    columns.forEach(function(column) {
+                      rowObject[column.metadata.colName] = column.value;
+                      itemsProcessed++;
+                      if (itemsProcessed === 6) {
+                        rowObject["from"] = "db"
+                        jsonArray.push(rowObject)
+                      }
+                    });
+                  });
+                  request.on('doneProc', function(rowCount, more, returnStatus, rows) {
+                    console.log("all rows downloaded")
 
+                    /*this does not*/
+                    var data = "New File Contents";
+                    fs.writeFile('temp2.txt', data, function(err, data) {
+                      if (err) console.log(err);
+                      console.log("Successfully Written to File. 2");
+                    });
 
-
-
+                  });
+                  connectionsql.execSql(request);
+                }
+              });
+            }
+          }
         } catch (e) {
           console.error(e);
         }
       }
     });
-
-
   });
-
-
 });
 
 
@@ -198,9 +139,6 @@ iotHubReader.startReadMessage(function(obj, date) {
     wss.broadcast(JSON.stringify(Object.assign(obj, {
       time: local
     })));
-
-
-
   } catch (err) {
     console.log(obj);
     console.error(err);
