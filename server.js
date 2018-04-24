@@ -108,10 +108,7 @@ wss.on('connection', function connection(ws) {
 
                     /*this does not*/
                     var data = "New File Contents";
-                    fs.writeFile('temp2.txt', data, function(err, data) {
-                      if (err) console.log(err);
-                      console.log("Successfully Written to File. 2");
-                    });
+                    fs.writeFileSync('temp2.txt', data);
 
                   });
                   connectionsql.execSql(request);
