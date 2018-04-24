@@ -26,6 +26,9 @@ router.use(function(req, res, next) {
   next();
 });
 
+app.use("/", router);
+
+
 // main page route
 router.get('/download', function(req, res) {
   console.log("hello");
