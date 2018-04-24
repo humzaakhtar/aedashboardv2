@@ -74,8 +74,8 @@ wss.on('connection', function connection(ws) {
     });
 
 
-    wss.clients.forEach(function each(client) {
-      if (client.readyState === WebSocket.OPEN) {
+  //  wss.clients.forEach(function each(client) {
+  //    if (client.readyState === WebSocket.OPEN) {
         try {
           if (isJson(msg)) {
             msg = JSON.parse(msg);
@@ -124,7 +124,7 @@ wss.on('connection', function connection(ws) {
 
                     /*this works */
                     fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
-                    client.send("file downloaded");
+                    ws.send("file downloaded");
 
                   });
                   connectionsql.execSql(request);
@@ -135,8 +135,8 @@ wss.on('connection', function connection(ws) {
         } catch (e) {
           console.error(e);
         }
-      }
-    });
+      //}
+    //});
   });
 });
 
