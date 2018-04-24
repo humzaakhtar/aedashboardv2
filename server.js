@@ -149,11 +149,13 @@ wss.on('connection', function connection(ws) {
 
                       request.on('doneProc', function (rowCount, more, returnStatus, rows) {
                             console.log("all rows downloaded")
-                            var data = "hello i am yen";
-                            fs.writeFile('temp1.txt', data, function(err, data){
-                                if (err) console.log(err);
-                                console.log("Successfully Written to File. 2");
-                              });
+
+                              var data = "New File Contents";
+
+                              fs.writeFile('temp2.txt', data, function(err, data){
+                                  if (err) console.log(err);
+                                  console.log("Successfully Written to File. 2");
+                                });
 
 
                       });
