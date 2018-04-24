@@ -68,6 +68,13 @@ function isJson(str) {
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
     //writer.pipe(stream)
+    var data = "New File Contents";
+
+    fs.writeFile('temp1.txt', data, function(err, data){
+        if (err) console.log(err);
+        console.log("Successfully Written to File.");
+      });
+
 
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
@@ -143,13 +150,9 @@ wss.on('connection', function connection(ws) {
                       request.on('doneProc', function (rowCount, more, returnStatus, rows) {
                             //console.log(rowCount + ' rows returned');
                               //console.log(rows) // this is the full array of row objects
-                              console.log(jsonArray)
+                            //  console.log(jsonArray)
 
 
-                              fs.writeFile('temp1.txt', jsonArray.toString(), function(err, data){
-                                  if (err) console.log(err);
-                                  console.log("Successfully Written to File.");
-                                });
 
                             /*  for (var i = 0; i < jsonArray.length; i++) {
                                 writer.pipe(fs.createWriteStream("historical_data1.csv", {flags: 'a'}));
