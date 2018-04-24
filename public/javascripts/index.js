@@ -196,8 +196,6 @@ ws = new WebSocket('wss://' + location.host);
   }
 
 
-
-
   ws.onmessage = function(message) {
   //  message = JSON.stringify(message);
     console.log('receive message' + message.data);
@@ -213,8 +211,9 @@ ws = new WebSocket('wss://' + location.host);
       document.getElementById("visbtn").innerHTML='Download';
       document.getElementById("visbtn").style.display='none';
       document.getElementById("dldbtn").style.display='block';
-      return;
+      document.getElementById("ldng").style.display='none';
     }
+    else{
 
 
     try {
@@ -273,6 +272,7 @@ ws = new WebSocket('wss://' + location.host);
     catch (err) {
       console.error(err);
     }
+  }
 
   }
 
@@ -317,7 +317,6 @@ function downloaddata() {
    document.getElementById("visbtn").style.display='block';
    document.getElementById("dldbtn").style.display='none';
    document.getElementById("visbtn").innerHTML='Download';
-   document.getElementById("ldng").style.display='none';
 
    window.open("http://aedashboardv3.azurewebsites.net/download")
 
