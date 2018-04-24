@@ -162,7 +162,7 @@ HistoricalDataOption = {
 
 
 
-canvas_h = document.getElementById("HistoricalLineChart");
+/*canvas_h = document.getElementById("HistoricalLineChart");
 ctx_h = canvas_h.getContext('2d');
 HistoricalLineChart = new Chart(ctx_h, {
     type: 'line',
@@ -170,7 +170,7 @@ HistoricalLineChart = new Chart(ctx_h, {
     options: HistoricalDataOption,
     responsive: true,
   maintainAspectRatio: false
-  });
+});*/
 
 
 
@@ -192,7 +192,7 @@ ws = new WebSocket('wss://' + location.host);
 
   ws.onopen = function() {
     console.log('Successfully connected WebSocket');
-    //setInterval(ping, 30000);
+    setInterval(ping, 30000);
   }
 
 
@@ -207,45 +207,21 @@ ws = new WebSocket('wss://' + location.host);
         pong();
         return;
     }
+    if(message.data == 'file downloaded'){
+
+      document.getElementById("visbtn").disabled = false;
+      document.getElementById("visbtn").innerHTML='Download';
+      document.getElementById("visbtn").style.display='none';
+      document.getElementById("dldbtn").style.display='block';
+      return;
+    }
 
 
     try {
 
       var obj = JSON.parse(message.data);
 
-      if( obj.hasOwnProperty('from')){
 
-          /*    if (!obj.time || !obj.pressure) {
-                console.log("No data coming");
-                return;
-
-              }
-
-
-              historicaltimeData.push(obj.time);
-              historicalpressureData.push(obj.pressure);
-
-              const maxLen = 30;
-              var len = historicaltimeData.length;
-
-              if (len > maxLen) {
-                historicaltimeData.shift();
-                historicalpressureData.shift();
-              }
-
-              if (obj.flowrate) {
-                historicalflowrateData.push(obj.flowrate);
-              }
-              if (flowrateData.length > maxLen) {
-                historicalflowrateData.shift();
-              }
-
-            //  HistoricalLineChart.update();*/
-
-
-      }
-
-else{
 
             if (!obj.time || !obj.pressure) {
               console.log("No data coming");
@@ -290,7 +266,7 @@ else{
             PressureLineChart.update();
             FlowrateLineChart.update();
           //  HistoricalLineChart.update();
-        }
+
 
     }
 
@@ -308,7 +284,8 @@ else{
 function visualizedata() {
 
   document.getElementById("visbtn").innerHTML='Preparing for Download';
-
+  document.getElementById("visbtn").disabled = true;
+  document.getElementById("ldng").style.display='block';
 
 
   //socket = io();
@@ -340,8 +317,7 @@ function downloaddata() {
    document.getElementById("visbtn").style.display='block';
    document.getElementById("dldbtn").style.display='none';
    document.getElementById("visbtn").innerHTML='Download';
-
-
+   document.getElementById("ldng").style.display='none';
 
    window.open("http://aedashboardv3.azurewebsites.net/download")
 

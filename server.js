@@ -106,6 +106,8 @@ wss.on('connection', function connection(ws) {
                     }
                   );
                   request.on('row', function(columns) {
+                  //  client.send("row downloaded");
+
                     rowObject = {};
                     var itemsProcessed = 0;
                     columns.forEach(function(column) {
@@ -122,6 +124,7 @@ wss.on('connection', function connection(ws) {
 
                     /*this works */
                     fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
+                    client.send("file downloaded");
 
                   });
                   connectionsql.execSql(request);
