@@ -106,9 +106,8 @@ wss.on('connection', function connection(ws) {
                   request.on('doneProc', function(rowCount, more, returnStatus, rows) {
                     console.log("all rows downloaded")
 
-                    /*this does not*/
-                    var data = "New File Contents";
-                    fs.writeFileSync('temp2.txt', jsonArray.toString());
+                    /*this works */
+                    fs.writeFileSync('temp3.txt', JSON.stringify(jsonArray));
 
                   });
                   connectionsql.execSql(request);
