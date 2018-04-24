@@ -20,6 +20,12 @@ app.use(function(req, res /*, next*/ ) {
 });
 
 
+// stop receiving data and close ampq connection
+app.get('/download', function(req, res) {
+  res.download('sensordata.txt');
+});
+
+
 const server = http.createServer(app);
 const wss = new WebSocket.Server({
   server
@@ -107,7 +113,7 @@ wss.on('connection', function connection(ws) {
                     console.log("all rows downloaded")
 
                     /*this works */
-                    fs.writeFileSync('temp3.txt', JSON.stringify(jsonArray));
+                    fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
 
                   });
                   connectionsql.execSql(request);
@@ -122,6 +128,7 @@ wss.on('connection', function connection(ws) {
     });
   });
 });
+
 
 
 var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);

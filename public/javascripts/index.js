@@ -332,5 +332,12 @@ function visualizedata() {
 
 
 function downloaddata() {
-    console.log("download data");
+    //console.log("download data");
+    $.ajax({
+      type: 'GET',
+      url: '/download',
+      success: function(data) {
+        console.log(data);
+      }
+    });
 }
