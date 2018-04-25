@@ -205,7 +205,7 @@ ws = new WebSocket('wss://' + location.host);
         pong();
         return;
     }
-  /*  if(message.data == 'file downloaded'){
+   if(message.data == 'file downloaded'){
 
       document.getElementById("visbtn").disabled = false;
       document.getElementById("visbtn").innerHTML='Download';
@@ -214,7 +214,7 @@ ws = new WebSocket('wss://' + location.host);
       document.getElementById("ldng").style.display='none';
 
     }
-    else{*/
+    else{
 
 
     try {
@@ -274,7 +274,7 @@ ws = new WebSocket('wss://' + location.host);
       console.error(err);
     }
 
-//  }
+ }
 }
 
 });
