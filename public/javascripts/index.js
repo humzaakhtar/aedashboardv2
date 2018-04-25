@@ -275,7 +275,7 @@ ws = new WebSocket('wss://' + location.host);
     }
 
   }
-
+}
 
 });
 
