@@ -124,7 +124,7 @@ wss.on('connection', function connection(ws) {
 
                     /*this works */
                     fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
-                    ws.send("file downloaded");
+                    wss.broadcast("file downloaded");
 
                   });
                   connectionsql.execSql(request);
