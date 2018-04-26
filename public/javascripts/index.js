@@ -321,6 +321,7 @@ function downloaddata() {
 
    window.open("http://aedashboardv3.azurewebsites.net/download")
 
-   window.opener.location.reload();
+   window.location.reload();
+   //location = window.location.href
 
 }
