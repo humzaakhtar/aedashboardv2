@@ -289,8 +289,8 @@ ws1.onmessage = function(message) {
     document.getElementById("ldng").style.display='none';
 
   }
+}
 
-  
 
 });
 
