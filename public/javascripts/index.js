@@ -298,9 +298,7 @@ function visualizedata() {
 
   obj_st = JSON.stringify(obj);
   if(inputval){
-    console.log("visalize data");
-
-
+    console.log("visualize data");
     ws.send(obj_st);
 
   //  ws.send(obj_st);

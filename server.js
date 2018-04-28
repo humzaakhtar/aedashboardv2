@@ -66,6 +66,8 @@ var sockets = [];
 wss.on('connection', function connection(ws) {
 
   var id = ws.upgradeReq.headers['sec-websocket-key'];
+  sockets[id] = ws;
+
   console.log('New Connection id :: ', id);
 
   ws.on('message', function incoming(msg) {
@@ -119,7 +121,7 @@ wss.on('connection', function connection(ws) {
 
                 fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
               //  ws.send("file downloaded");
-                sockets[msg.to].send("file downloaded");
+                sockets[id].send("file downloaded");
 
               });
               connectionsql.execSql(request);
@@ -140,7 +142,7 @@ wss.on('connection', function connection(ws) {
     console.log('Closing :: ', id);
   });
 
-  sockets[id] = ws;
+
 
 });
 
