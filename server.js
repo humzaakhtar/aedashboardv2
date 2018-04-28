@@ -62,82 +62,86 @@ function isJson(str) {
   return true;
 }
 
-
+var sockets = [];
 wss.on('connection', function connection(ws) {
+
+  var id = ws.upgradeReq.headers['sec-websocket-key'];
+  console.log('New Connection id :: ', id);
+
   ws.on('message', function incoming(msg) {
+    var id = ws.upgradeReq.headers['sec-websocket-key'];
 
-    /* this works */
-    var data = "New File Contents";
-    fs.writeFile('temp1.txt', data, function(err, data) {
-      if (err) console.log(err);
-      console.log("Successfully Written to File.");
-    });
-
-
-  //  wss.clients.forEach(function each(client) {
-  //    if (client.readyState === WebSocket.OPEN) {
-        try {
-          if (isJson(msg)) {
-            msg = JSON.parse(msg);
-            if (msg.hasOwnProperty('jobid')) {
-              console.log('message: ' + msg);
-              var config = {
-                userName: 'akhtarh',
-                password: 'Aeiotbox2',
-                server: 'aesqldatabaseserver.database.windows.net',
-                options: {
-                  database: 'aesqldatabase',
-                  encrypt: true,
-                  rowCollectionOnDone: true
-                }
-              }
-              var connectionsql = new Connection(config);
-              connectionsql.on('connect', function(err) {
-                jsonArray = []
-                if (err) {
-                  console.log(err)
-                } else {
-                  console.log('Reading rows from the Table...');
-                  var reqsql = "select * from sensordata where jobid = " + msg.jobid
-                  request = new Request(
-                    reqsql,
-                    function(err, rowCount, rows) {
-                      process.exit();
-                    }
-                  );
-                  request.on('row', function(columns) {
-                  //  client.send("row downloaded");
-
-                    rowObject = {};
-                    var itemsProcessed = 0;
-                    columns.forEach(function(column) {
-                      rowObject[column.metadata.colName] = column.value;
-                      itemsProcessed++;
-                      if (itemsProcessed === 6) {
-                        rowObject["from"] = "db"
-                        jsonArray.push(rowObject)
-                      }
-                    });
-                  });
-                  request.on('doneProc', function(rowCount, more, returnStatus, rows) {
-                    console.log("all rows downloaded")
-
-                    /*this works */
-                    fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
-                    ws.send("file downloaded");
-
-                  });
-                  connectionsql.execSql(request);
-                }
-              });
+    try {
+      if (isJson(msg)) {
+        msg = JSON.parse(msg);
+        if (msg.hasOwnProperty('jobid')) {
+          console.log('message: ' + msg);
+          var config = {
+            userName: 'akhtarh',
+            password: 'Aeiotbox2',
+            server: 'aesqldatabaseserver.database.windows.net',
+            options: {
+              database: 'aesqldatabase',
+              encrypt: true,
+              rowCollectionOnDone: true
             }
           }
-        } catch (e) {
-          console.error(e);
+          var connectionsql = new Connection(config);
+          connectionsql.on('connect', function(err) {
+            jsonArray = []
+            if (err) {
+              console.log(err)
+            } else {
+              console.log('Reading rows from the Table...');
+              var reqsql = "select * from sensordata where jobid = " + msg.jobid
+              request = new Request(
+                reqsql,
+                function(err, rowCount, rows) {
+                  process.exit();
+                }
+              );
+              request.on('row', function(columns) {
+                //  client.send("row downloaded");
+
+                rowObject = {};
+                var itemsProcessed = 0;
+                columns.forEach(function(column) {
+                  rowObject[column.metadata.colName] = column.value;
+                  itemsProcessed++;
+                  if (itemsProcessed === 6) {
+                    rowObject["from"] = "db"
+                    jsonArray.push(rowObject)
+                  }
+                });
+              });
+              request.on('doneProc', function(rowCount, more, returnStatus, rows) {
+                console.log("all rows downloaded")
+
+                fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
+              //  ws.send("file downloaded");
+                sockets[msg.to].send(" file downloaded");
+
+              });
+              connectionsql.execSql(request);
+            }
+          });
         }
-      //}
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    //}
     //});
   });
+
+
+  ws.on('close', function() {
+    var id = ws.upgradeReq.headers['sec-websocket-key'];
+    console.log('Closing :: ', id);
+  });
+
+  sockets[id] = ws;
+
 });
 
 

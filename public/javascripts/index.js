@@ -294,11 +294,16 @@ function visualizedata() {
   console.log(inputval);
   var obj ={};
   obj.jobid = inputval;
+  obj.to = "sec-websocket-identifier";
 
   obj_st = JSON.stringify(obj);
   if(inputval){
     console.log("visalize data");
+
+
     ws.send(obj_st);
+
+  //  ws.send(obj_st);
   //  socket.emit('message', inputval);
   }
 
