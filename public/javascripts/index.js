@@ -269,7 +269,9 @@ ws1 = new WebSocket('wss://' + location.host);
 
 }
 
-});
+
+
+
 
 
 ws1.onopen = function() {
@@ -287,6 +289,13 @@ ws1.onmessage = function(message) {
     document.getElementById("ldng").style.display='none';
 
   }
+
+  
+
+});
+
+
+
 
 function visualizedata() {
 
