@@ -154,9 +154,7 @@ iotHubReader.startReadMessage(function(obj, date) {
     var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
     var stillUtc = moment.utc(date).toDate();
     var local = moment(stillUtc).local().format('hh:mm:ss');
-    wss.broadcast(JSON.stringify(Object.assign(obj, {
-      time: local
-    })));
+    //wss.broadcast(JSON.stringify(Object.assign(obj, {  time: local})));
   } catch (err) {
     console.log(obj);
     console.error(err);
