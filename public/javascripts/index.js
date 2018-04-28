@@ -183,7 +183,7 @@ ws = new WebSocket('wss://' + location.host);
           tm = setTimeout(function () {
           var currentdevicestatus = document.getElementById("currentdevicestatus");
           currentdevicestatus.innerHTML  = "&#10060;"
-      }, 10000);
+      }, 100000);
   }
 
   function pong() {
@@ -192,7 +192,7 @@ ws = new WebSocket('wss://' + location.host);
 
   ws.onopen = function() {
     console.log('Successfully connected WebSocket');
-    setInterval(ping, 30000);
+    setInterval(ping, 300000);
   }
 
 
