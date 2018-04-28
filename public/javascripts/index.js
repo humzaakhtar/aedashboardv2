@@ -281,7 +281,6 @@ ws1.onopen = function() {
 ws1.onmessage = function(message) {
 
  if(message.data == 'file downloaded'){
-
     document.getElementById("visbtn").disabled = false;
     document.getElementById("visbtn").innerHTML='Download';
     document.getElementById("visbtn").style.display='none';
