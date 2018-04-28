@@ -151,7 +151,7 @@ wss.on('connection', function connection(ws) {
 var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 iotHubReader.startReadMessage(function(obj, date) {
   try {
-    console.log(date);
+   //  console.log(date);
     date = date || Date.now();
     var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
     var stillUtc = moment.utc(date).toDate();
