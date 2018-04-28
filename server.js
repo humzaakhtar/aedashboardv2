@@ -119,7 +119,7 @@ wss.on('connection', function connection(ws) {
               request.on('doneProc', function(rowCount, more, returnStatus, rows) {
                 console.log("all rows downloaded")
 
-                fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
+                //fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
               //  ws.send("file downloaded");
                 sockets[id].send("file downloaded");
 
