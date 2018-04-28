@@ -176,6 +176,7 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 
 ws = new WebSocket('wss://' + location.host);
+ws1 = new WebSocket('wss://' + location.host);
 
 
   function ping() {
@@ -205,16 +206,7 @@ ws = new WebSocket('wss://' + location.host);
         pong();
         return;
     }
-   if(message.data == 'file downloaded'){
 
-      document.getElementById("visbtn").disabled = false;
-      document.getElementById("visbtn").innerHTML='Download';
-      document.getElementById("visbtn").style.display='none';
-      document.getElementById("dldbtn").style.display='block';
-      document.getElementById("ldng").style.display='none';
-
-    }
-    else{
 
 
     try {
@@ -274,12 +266,27 @@ ws = new WebSocket('wss://' + location.host);
       console.error(err);
     }
 
- }
+
 }
 
 });
 
 
+ws1.onopen = function() {
+  console.log('Successfully connected WebSocket 1');
+}
+
+ws1.onmessage = function(message) {
+
+ if(message.data == 'file downloaded'){
+
+    document.getElementById("visbtn").disabled = false;
+    document.getElementById("visbtn").innerHTML='Download';
+    document.getElementById("visbtn").style.display='none';
+    document.getElementById("dldbtn").style.display='block';
+    document.getElementById("ldng").style.display='none';
+
+  }
 
 function visualizedata() {
 
@@ -299,7 +306,7 @@ function visualizedata() {
   obj_st = JSON.stringify(obj);
   if(inputval){
     console.log("visualize data");
-    ws.send(obj_st);
+    ws1.send(obj_st);
 
   //  ws.send(obj_st);
   //  socket.emit('message', inputval);
