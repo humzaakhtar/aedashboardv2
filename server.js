@@ -90,6 +90,7 @@ function isJson(str) {
   });
 
 
+iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
 
 function runreader(iotHubReader){
@@ -113,7 +114,6 @@ function runreader(iotHubReader){
 
 router.get('/', function(req, res) {
 
-  var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
   runreader(iotHubReader);
   res.render('public/index');
 
