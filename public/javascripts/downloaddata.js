@@ -44,5 +44,5 @@ function downloaddata() {
   document.getElementById("dldbtn").style.display = 'none';
   document.getElementById("visbtn").innerHTML = 'Download';
   window.open("http://aedashboardv3.azurewebsites.net/download")
-  window.location.reload();
+  //window.location.reload();
 }

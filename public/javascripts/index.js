@@ -184,21 +184,3 @@ $(document).ready(function() {
   }
 
 });
-
-
-
-
-/*
-function downloadpage() {
-
-
-        $.ajax({
-                  url: "/downloadpage",
-                  type: 'GET',
-                  success: function(res) {
-                      console.log(res);
-                  }
-              });
-
-}
-*/
