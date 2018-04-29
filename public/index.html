@@ -8,20 +8,15 @@
 
   <title>Plug & Collect Dashboard</title>
   <meta name="description" content="this is a simple dashboard for ARTC IoT box">
-  <meta name="author" content="Humza Akhtar">
 
-  <!--<link href="stylesheets/bootstrap.min.css" rel="stylesheet">-->
   <link href="stylesheets/style.css" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-        <script src="javascripts/jquery.min.js"></script>
-        <!--<script src="javascripts/bootstrap.min.js"></script>-->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="javascripts/moment.js" type="text/javascript" charset="utf-8"></script>
-        <script src="javascripts/Chart.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="javascripts/index.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="javascripts/moment.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/Chart.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/index.js" type="text/javascript" charset="utf-8"></script>
 
 
 
@@ -35,36 +30,32 @@
 
   <div class="container-fluid col-md-12">
     <div class="row">
-      <div style="" class="col-md-8">
-        <div class="row"  style="border:1px solid black;">
+      <div style="" class="col-md-10">
+        <div class="row" style="border:1px solid black;">
           <div style="" class="col-md-6">
             <div class="row">
               <div style="" class="col-md-6">
-                  <h5>Current Job ID</h5>
+                <h5>Current Job ID</h5>
               </div>
 
               <div style="" class="col-md-6">
-                  <h5 id="currentjobid">000</h5>
+                <h5 id="currentjobid">000</h5>
               </div>
             </div>
             <div class="row">
               <div style="" class="col-md-6">
                 <h5>Device Status</h5>
-                <!--  <h5>Last Packet Received At</h5>-->
               </div>
               <div style="" class="col-md-6">
                 <h5 id="currentdevicestatus"> </h5>
-                <!--  <p>  tick &#9989;   cross &#10060;</p>-->
               </div>
             </div>
             <div class="row">
               <div style="" class="col-md-6">
                 <h5>Last Packet Received At</h5>
-                <!--  <h5>Last Packet Received At</h5>-->
               </div>
               <div style="" class="col-md-6">
                 <h5 id="lastmsgreceived"> </h5>
-                <!--  <p>  tick &#9989;   cross &#10060;</p>-->
               </div>
             </div>
             <div class="row">
@@ -80,39 +71,35 @@
           <div style="" class="col-md-6">
             <div class="row">
               <div style="" class="col-md-12">
-                <canvas id="PressureLineChart" ></canvas>
+                <canvas id="PressureLineChart"></canvas>
 
               </div>
             </div>
             <div class="row">
               <div style="" class="col-md-12">
-                    <canvas id="FlowrateLineChart"></canvas>
+                <canvas id="FlowrateLineChart"></canvas>
               </div>
             </div>
           </div>
 
         </div>
-        <div  class="row" style="border:1px solid black;" >
-
-
-          <div style="" class="col-md-6" >
+        <div class="row" style="border:1px solid black;">
+          <div style="" class="col-md-6">
             <div style="text-align:left;padding:10px">
-
-            <!--  <button id="downloadbtn" type="button" class="btn btn-primary" onclick="downloadpage()">Download Data</button>-->
               <a class="btn btn-primary" href="downloadpage">Click to Download Historical Data </a>
 
             </div>
             <br><br>
+          </div>
+
+
         </div>
 
-
       </div>
-
+      <div class="col-md-2">
+        <!--  <img height: "100%" src="robotic-blasting.jpg" alt="" />-->
+      </div>
     </div>
-    <div  class="col-md-4"  >
-    <!--  <img height: "100%" src="robotic-blasting.jpg" alt="" />-->
-    </div>
-  </div>
 
 
 </body>

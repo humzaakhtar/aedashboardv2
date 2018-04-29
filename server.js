@@ -84,7 +84,7 @@ function isJson(str) {
   }
 
 
-  var port = normalizePort(process.env.PORT || '3001');
+  var port = normalizePort('3000');
   server.listen(port, function listening() {
     console.log('Listening on %d', server.address().port);
   });
@@ -112,18 +112,11 @@ iotHubReader.startReadMessage(function(obj, date) {
 
 
 router.get('/', function(req, res) {
-
   res.sendFile(__dirname+'/public/index.html');
-
-
-
 });
 
 router.get('/downloadpage',function(req,res){
-
   res.sendFile(__dirname+'/public/downloaddata.html');
-
-
 });
 
 
