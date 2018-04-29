@@ -188,7 +188,7 @@ $(document).ready(function() {
 
 
 
-
+/*
 function downloadpage() {
 
 
@@ -201,3 +201,4 @@ function downloadpage() {
               });
 
 }
+*/
