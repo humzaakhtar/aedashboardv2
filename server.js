@@ -93,7 +93,7 @@ router.get('/', function(req, res) {
   console.log("hello i am loaded");
 
 
-  iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
+  var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
 
   ioTHubReader.startReadMessage(function(obj, date) {
