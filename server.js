@@ -83,10 +83,17 @@ function isJson(str) {
     return false;
   }
 
+
+  var port = normalizePort(process.env.PORT || '3001');
+  server.listen(port, function listening() {
+    console.log('Listening on %d', server.address().port);
+  });
+
+
 router.get('/', function(req, res) {
 
 
-
+/*
   var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
   iotHubReader.startReadMessage(function(obj, date) {
     try {
@@ -104,12 +111,8 @@ router.get('/', function(req, res) {
     }
   });
 
+*/
 
-
-  var port = normalizePort(process.env.PORT || '3001');
-  server.listen(port, function listening() {
-    console.log('Listening on %d', server.address().port);
-  });
 
   res.render('public/index');
 
