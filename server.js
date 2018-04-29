@@ -44,8 +44,78 @@ router.get('/download', function(req, res) {
 });
 
 
+
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 router.post('/visdata', function(req, res) {
-  console.log(req.body);
+
+  try {
+    if (isJson(msg)) {
+      msg = JSON.parse(req.body);
+      if (msg.hasOwnProperty('jobid')) {
+        var config = {
+          userName: 'akhtarh',
+          password: 'Aeiotbox2',
+          server: 'aesqldatabaseserver.database.windows.net',
+          options: {
+            database: 'aesqldatabase',
+            encrypt: true,
+            rowCollectionOnDone: true
+          }
+        }
+        var connectionsql = new Connection(config);
+        connectionsql.on('connect', function(err) {
+          jsonArray = []
+          if (err) {
+            console.log(err)
+          } else {
+            console.log('Reading rows from the Table...');
+            var reqsql = "select * from sensordata where jobid = " + msg.jobid
+            request = new Request(
+              reqsql,
+              function(err, rowCount, rows) {
+                process.exit();
+              }
+            );
+            request.on('row', function(columns) {
+              //  client.send("row downloaded");
+
+              rowObject = {};
+              var itemsProcessed = 0;
+              columns.forEach(function(column) {
+                rowObject[column.metadata.colName] = column.value;
+                itemsProcessed++;
+                if (itemsProcessed === 6) {
+                  rowObject["from"] = "db"
+                  jsonArray.push(rowObject)
+                }
+              });
+            });
+            request.on('doneProc', function(rowCount, more, returnStatus, rows) {
+              console.log("all rows downloaded")
+
+              //fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
+            //  ws.send("file downloaded");
+              res.send("file downloaded");
+
+            });
+            connectionsql.execSql(request);
+          }
+        });
+      }
+    }
+  } catch (e) {
+    console.error(e);
+    res.send("error");
+  }
+
   //req.pipe(req.busboy);
 
 });
@@ -71,14 +141,7 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-function isJson(str) {
-  try {
-    JSON.parse(str);
-  } catch (e) {
-    return false;
-  }
-  return true;
-}
+
 
 var sockets = [];
 wss.on('connection', function connection(ws) {
@@ -91,65 +154,7 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(msg) {
     var id = ws.upgradeReq.headers['sec-websocket-key'];
 
-    try {
-      if (isJson(msg)) {
-        msg = JSON.parse(msg);
-        if (msg.hasOwnProperty('jobid')) {
-          console.log('message: ' + msg);
-          var config = {
-            userName: 'akhtarh',
-            password: 'Aeiotbox2',
-            server: 'aesqldatabaseserver.database.windows.net',
-            options: {
-              database: 'aesqldatabase',
-              encrypt: true,
-              rowCollectionOnDone: true
-            }
-          }
-          var connectionsql = new Connection(config);
-          connectionsql.on('connect', function(err) {
-            jsonArray = []
-            if (err) {
-              console.log(err)
-            } else {
-              console.log('Reading rows from the Table...');
-              var reqsql = "select * from sensordata where jobid = " + msg.jobid
-              request = new Request(
-                reqsql,
-                function(err, rowCount, rows) {
-                  process.exit();
-                }
-              );
-              request.on('row', function(columns) {
-                //  client.send("row downloaded");
 
-                rowObject = {};
-                var itemsProcessed = 0;
-                columns.forEach(function(column) {
-                  rowObject[column.metadata.colName] = column.value;
-                  itemsProcessed++;
-                  if (itemsProcessed === 6) {
-                    rowObject["from"] = "db"
-                    jsonArray.push(rowObject)
-                  }
-                });
-              });
-              request.on('doneProc', function(rowCount, more, returnStatus, rows) {
-                console.log("all rows downloaded")
-
-                //fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
-              //  ws.send("file downloaded");
-                sockets[id].send("file downloaded");
-
-              });
-              connectionsql.execSql(request);
-            }
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
     //}
     //});
   });

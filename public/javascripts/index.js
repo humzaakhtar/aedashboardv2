@@ -324,6 +324,19 @@ function visualizedata() {
       url: '/visdata',
       success: function(data) {
         console.log(data);
+        if(data == "file downloaded"){
+          document.getElementById("visbtn").disabled = false;
+          document.getElementById("visbtn").innerHTML='Download';
+          document.getElementById("visbtn").style.display='none';
+          document.getElementById("dldbtn").style.display='block';
+          document.getElementById("ldng").style.display='none';
+        }
+        else{
+          document.getElementById("visbtn").disabled = false;
+          document.getElementById("visbtn").innerHTML='Download';
+          document.getElementById("ldng").style.display='none';
+          window.alert("Error - Please try again");
+        }
       }
     });
 
