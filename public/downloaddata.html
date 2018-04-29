@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Plug & Collect Dashboard</title>
+  <meta name="description" content="this is a simple dashboard for ARTC IoT box">
+  <meta name="author" content="Humza Akhtar">
+
+  <!--<link href="stylesheets/bootstrap.min.css" rel="stylesheet">-->
+  <link href="stylesheets/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+        <script src="javascripts/jquery.min.js"></script>
+        <!--<script src="javascripts/bootstrap.min.js"></script>-->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="javascripts/moment.js" type="text/javascript" charset="utf-8"></script>
+        <script src="javascripts/Chart.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="javascripts/downloaddata.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+  <div class="container-fluid col-md-12">
+    <div class="row">
+      <div style="" class="col-md-8">
+
+        <div  class="row" style="border:1px solid black;" >
+
+          <div style="" class="col-md-6" >
+            <div style="text-align:left;padding:0px">
+              <h5>Select Job ID (Historical)</h5>
+              <input type="text" name="oldjobid"><br><br>
+              <button id="visbtn" type="button" class="btn btn-primary" onclick="visualizedata()">Download</button>
+              <button id="dldbtn" style="display: none;" type="button" class="btn btn-success" onclick="downloaddata()">Download</button>
+            </div>
+            <br><br>
+        </div>
+
+        <div class="row" >
+          <div id="ldng" style="display:table-cell; vertical-align:middle; text-align:center; display: none;" class="col-md-6">
+          <!--<canvas id="HistoricalLineChart" ></canvas>-->
+           <img  height: "30%" width="30%" src="loading.gif">
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div  class="col-md-4"  >
+      <img height: "100%" src="robotic-blasting.jpg" alt="" />
+    </div>
+  </div>
+
+
+</body>
+
+</html>
