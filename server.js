@@ -57,7 +57,7 @@ function isJson(str) {
 router.post('/visdata', function(req, res) {
 
   try {
-    if (isJson(msg)) {
+    if (isJson(req.body)) {
       msg = JSON.parse(req.body);
       if (msg.hasOwnProperty('jobid')) {
         var config = {
