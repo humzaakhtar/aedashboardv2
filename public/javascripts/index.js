@@ -1,4 +1,4 @@
-$(document).ready(function() {
+//$(document).ready(function() {
 
   timeData = [];
   pressureData = [];
@@ -183,4 +183,4 @@ $(document).ready(function() {
 
   }
 
-});
+//});
