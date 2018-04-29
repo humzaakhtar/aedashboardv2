@@ -91,7 +91,7 @@ function isJson(str) {
 
 
 iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
-
+that = this;
 
 iotHubReader.startReadMessage(function(obj, date) {
     try {
@@ -108,6 +108,27 @@ iotHubReader.startReadMessage(function(obj, date) {
       console.error(err);
     }
   });
+
+
+  function restartiothub (){
+
+    iotHubReader.startReadMessage(function(obj, date) {
+        try {
+          console.log("i am new function");
+          date = date || Date.now();
+          var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
+          var stillUtc = moment.utc(date).toDate();
+          var local = moment(stillUtc).local().format('hh:mm:ss');
+          wss.broadcast(JSON.stringify(Object.assign(obj, {
+            time: local
+          })));
+        } catch (err) {
+          console.log(obj);
+          console.error(err);
+        }
+      });
+
+  }
 
 
 
@@ -170,6 +191,8 @@ router.post('/visdata', function(req, res) {
             console.log("all rows downloaded")
             fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
             res.send("file downloaded");
+            that.restartiothub()
+
           });
           connectionsql.execSql(request);
         }
@@ -178,5 +201,8 @@ router.post('/visdata', function(req, res) {
   } catch (e) {
     console.error(e);
     res.send("error");
+    that.restartiothub()
+
   }
 });
+//restartiothub

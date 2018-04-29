@@ -1,4 +1,3 @@
-//$(document).ready(function() {
 
   timeData = [];
   pressureData = [];
@@ -182,5 +181,3 @@
 
 
   }
-
-//});
