@@ -100,9 +100,9 @@ router.post('/visdata', function(req, res) {
             request.on('doneProc', function(rowCount, more, returnStatus, rows) {
               console.log("all rows downloaded")
 
-              //fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
+              fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
             //  ws.send("file downloaded");
-              res.end("file downloaded");
+              res.send("file downloaded");
 
             });
             connectionsql.execSql(request);
@@ -112,7 +112,7 @@ router.post('/visdata', function(req, res) {
 
   } catch (e) {
     console.error(e);
-    res.end("error");
+    res.send("error");
   }
 
   //req.pipe(req.busboy);

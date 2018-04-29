@@ -176,7 +176,7 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 
 ws = new WebSocket('wss://' + location.host);
-ws1 = new WebSocket('wss://' + location.host);
+//ws1 = new WebSocket('wss://' + location.host);
 
 
   function ping() {
@@ -274,7 +274,7 @@ ws1 = new WebSocket('wss://' + location.host);
 
 
 
-ws1.onopen = function() {
+/*ws1.onopen = function() {
   console.log('Successfully connected WebSocket 1');
 }
 
@@ -288,7 +288,7 @@ ws1.onmessage = function(message) {
     document.getElementById("ldng").style.display='none';
 
   }
-}
+}*/
 
 
 });
