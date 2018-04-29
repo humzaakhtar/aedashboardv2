@@ -113,6 +113,7 @@ if(iotHubReader){
       });
 
 }
+else{console.log("reader is not defined");}
 
 
   res.sendFile(__dirname+'/public/indexfile.html');
