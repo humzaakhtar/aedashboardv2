@@ -21,10 +21,6 @@ app.use(bodyParser.urlencoded({
 
 var rowObject = {};
 
-//router.use(function(req, res, next) {
-//  console.log("/" + req.method);
-//  next();
-//});
 
 
 router.use(function(req, res, next) {
@@ -83,6 +79,9 @@ function isJson(str) {
 
     return false;
   }
+
+
+  app.use("/", router);
 
 
   var port = normalizePort(process.env.PORT || '3000');
@@ -189,6 +188,5 @@ router.post('/visdata', function(req, res) {
 });
 
 
-app.use("/", router);
 
 //restartiothub
