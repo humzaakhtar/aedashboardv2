@@ -1,21 +1,9 @@
-
-
-
 $(document).ready(function() {
 
   timeData = [];
   pressureData = [];
   flowrateData = [];
-  historicaltimeData =[];
-  historicalpressureData = [];
-  historicalflowrateData = [];
-  Historicaldataarray = {};
-  HistoricalDataOption ={};
-  canvas_h = 0;
-  ctx_h = 0;
-  HistoricalLineChart = 0;
-
-  tm  = 0;
+  tm = 0;
 
   var Flowratedataarray = {
     labels: timeData,
@@ -47,35 +35,6 @@ $(document).ready(function() {
     }]
   }
 
-
-
-
-Historicaldataarray = {
-    labels: historicaltimeData,
-    datasets: [{
-        fill: false,
-        label: 'Pressure',
-        borderColor: "rgba(255, 204, 0, 1)",
-        pointBoarderColor: "rgba(255, 204, 0, 1)",
-        backgroundColor: "rgba(255, 204, 0, 0.4)",
-        pointHoverBackgroundColor: "rgba(255, 204, 0, 1)",
-        pointHoverBorderColor: "rgba(255, 204, 0, 1)",
-        data: historicalpressureData,
-        spanGaps: true,
-      },
-      {
-        fill: false,
-        label: 'Flow Rate',
-        borderColor: "rgba(24, 120, 240, 1)",
-        pointBoarderColor: "rgba(24, 120, 240, 1)",
-        backgroundColor: "rgba(24, 120, 240, 0.4)",
-        pointHoverBackgroundColor: "rgba(24, 120, 240, 1)",
-        pointHoverBorderColor: "rgba(24, 120, 240, 1)",
-        data: historicalflowrateData,
-        spanGaps: false,
-      }
-    ]
-  };
 
 
 
@@ -119,22 +78,6 @@ Historicaldataarray = {
 
 
 
-
-HistoricalDataOption = {
-    scales: {
-      yAxes: [{
-        scaleLabel: {
-          display: false,
-          labelString: 'Pressure and Flowrate',
-          fontSize: 10
-        }
-      }]
-
-    }
-  };
-
-
-
   //Get the context of the canvas element we want to select
   var ctx = document.getElementById("PressureLineChart").getContext("2d");
   var optionsNoAnimation = {
@@ -145,7 +88,7 @@ HistoricalDataOption = {
     data: Pressuredataarray,
     options: PressureOption,
     responsive: true,
-  maintainAspectRatio: false
+    maintainAspectRatio: false
   });
 
   var ctx = document.getElementById("FlowrateLineChart").getContext("2d");
@@ -157,38 +100,25 @@ HistoricalDataOption = {
     data: Flowratedataarray,
     options: FlowrateOption,
     responsive: true,
-  maintainAspectRatio: false
+    maintainAspectRatio: false
   });
 
 
 
-/*canvas_h = document.getElementById("HistoricalLineChart");
-ctx_h = canvas_h.getContext('2d');
-HistoricalLineChart = new Chart(ctx_h, {
-    type: 'line',
-    data: Historicaldataarray,
-    options: HistoricalDataOption,
-    responsive: true,
-  maintainAspectRatio: false
-});*/
 
-
-
-
-ws = new WebSocket('wss://' + location.host + "/ws1");
-//ws1 = new WebSocket('wss://' + location.host);
+  ws = new WebSocket('wss://' + location.host);
 
 
   function ping() {
-          ws.send('__ping__');
-          tm = setTimeout(function () {
-          var currentdevicestatus = document.getElementById("currentdevicestatus");
-          currentdevicestatus.innerHTML  = "&#10060;"
-      }, 100000);
+    ws.send('__ping__');
+    tm = setTimeout(function() {
+      var currentdevicestatus = document.getElementById("currentdevicestatus");
+      currentdevicestatus.innerHTML = "&#10060;"
+    }, 100000);
   }
 
   function pong() {
-      clearTimeout(tm);
+    clearTimeout(tm);
   }
 
   ws.onopen = function() {
@@ -198,98 +128,60 @@ ws = new WebSocket('wss://' + location.host + "/ws1");
 
 
   ws.onmessage = function(message) {
-  //  message = JSON.stringify(message);
-    console.log('receive message' + message.data);
-  //  console.log('receive message' + message.data);
 
-   if (message.data == '__pong__') {
-        pong();
-        return;
+    if (message.data == '__pong__') {
+      pong();
+      return;
     }
-
-
 
     try {
-
       var obj = JSON.parse(message.data);
+      if (!obj.time || !obj.pressure) {
+        console.log("No data coming");
+        var currentdevicestatus = document.getElementById("currentdevicestatus");
+        currentdevicestatus = "&#10060;"
+        return;
+      }
+      var deviceid = document.getElementById("deviceid");
+      deviceid.innerHTML = obj.deviceId;
 
 
+      var jobid = document.getElementById("currentjobid");
+      jobid.innerHTML = obj.jobId;
 
-            if (!obj.time || !obj.pressure) {
-              console.log("No data coming");
-              var currentdevicestatus = document.getElementById("currentdevicestatus");
-              currentdevicestatus  = "&#10060;"
-              return;
+      var currentdevicestatus = document.getElementById("currentdevicestatus");
+      currentdevicestatus.innerHTML = "&#9989;"
 
-            }
-
-            var deviceid = document.getElementById("deviceid");
-            deviceid.innerHTML = obj.deviceId;
+      var lastmsgreceived = document.getElementById("lastmsgreceived");
+      lastmsgreceived.innerHTML = obj.time;
 
 
-            var jobid = document.getElementById("currentjobid");
-            jobid.innerHTML= obj.jobId;
+      timeData.push(obj.time);
+      pressureData.push(obj.pressure);
 
-            var currentdevicestatus = document.getElementById("currentdevicestatus");
-            currentdevicestatus.innerHTML  = "&#9989;"
+      const maxLen = 20;
+      var len = timeData.length;
 
-            var lastmsgreceived = document.getElementById("lastmsgreceived");
-            lastmsgreceived.innerHTML = obj.time;
+      if (len > maxLen) {
+        timeData.shift();
+        pressureData.shift();
+      }
 
+      if (obj.flowrate) {
+        flowrateData.push(obj.flowrate);
+      }
+      if (flowrateData.length > maxLen) {
+        flowrateData.shift();
+      }
 
-            timeData.push(obj.time);
-            pressureData.push(obj.pressure);
-
-            const maxLen = 20;
-            var len = timeData.length;
-
-            if (len > maxLen) {
-              timeData.shift();
-              pressureData.shift();
-            }
-
-            if (obj.flowrate) {
-              flowrateData.push(obj.flowrate);
-            }
-            if (flowrateData.length > maxLen) {
-              flowrateData.shift();
-            }
-
-            PressureLineChart.update();
-            FlowrateLineChart.update();
-          //  HistoricalLineChart.update();
-
-
-    }
-
-    catch (err) {
+      PressureLineChart.update();
+      FlowrateLineChart.update();
+    } catch (err) {
       console.error(err);
     }
 
 
-}
-
-
-
-
-
-
-/*ws1.onopen = function() {
-  console.log('Successfully connected WebSocket 1');
-}
-
-ws1.onmessage = function(message) {
-
- if(message.data == 'file downloaded'){
-    document.getElementById("visbtn").disabled = false;
-    document.getElementById("visbtn").innerHTML='Download';
-    document.getElementById("visbtn").style.display='none';
-    document.getElementById("dldbtn").style.display='block';
-    document.getElementById("ldng").style.display='none';
-
   }
-}*/
-
 
 });
 
@@ -297,25 +189,16 @@ ws1.onmessage = function(message) {
 
 
 function visualizedata() {
-
-  document.getElementById("visbtn").innerHTML='Preparing for Download';
+  document.getElementById("visbtn").innerHTML = 'Preparing for Download';
   document.getElementById("visbtn").disabled = true;
-  document.getElementById("ldng").style.display='block';
-
-
-  //socket = io();
-
+  document.getElementById("ldng").style.display = 'block';
   var inputval = document.getElementsByName("oldjobid")[0].value;
   console.log(inputval);
-  var obj ={};
+  var obj = {};
   obj.jobid = inputval;
-  //obj.to = "sec-websocket-identifier";
-
   obj_st = JSON.stringify(obj);
-  if(inputval){
+  if (inputval) {
     console.log("visualize data");
-
-
     $.ajax({
       type: 'POST',
       data: obj_st,
@@ -324,46 +207,30 @@ function visualizedata() {
       url: '/visdata',
       success: function(data) {
         console.log(data);
-        if(data == "file downloaded"){
+        if (data == "file downloaded") {
           document.getElementById("visbtn").disabled = false;
-          document.getElementById("visbtn").innerHTML='Download';
-          document.getElementById("visbtn").style.display='none';
-          document.getElementById("dldbtn").style.display='block';
-          document.getElementById("ldng").style.display='none';
-        }
-        else{
+          document.getElementById("visbtn").innerHTML = 'Download';
+          document.getElementById("visbtn").style.display = 'none';
+          document.getElementById("dldbtn").style.display = 'block';
+          document.getElementById("ldng").style.display = 'none';
+        } else {
           document.getElementById("visbtn").disabled = false;
-          document.getElementById("visbtn").innerHTML='Download';
-          document.getElementById("ldng").style.display='none';
+          document.getElementById("visbtn").innerHTML = 'Download';
+          document.getElementById("ldng").style.display = 'none';
           window.alert("Error - Please try again");
         }
       }
     });
-
-  //  ws1.send(obj_st);
-
   }
-
-//  socket.on('record', function(msg){
-//        console.log(msg);
-//  });
-
-
 }
 
 
 
 
 function downloaddata() {
-    //console.log("download data");
-   document.getElementById("visbtn").style.display='block';
-   document.getElementById("dldbtn").style.display='none';
-   document.getElementById("visbtn").innerHTML='Download';
-
-
-   window.open("http://aedashboardv3.azurewebsites.net/download")
-
-   window.location.reload();
-   //location = window.location.href
-
+  document.getElementById("visbtn").style.display = 'block';
+  document.getElementById("dldbtn").style.display = 'none';
+  document.getElementById("visbtn").innerHTML = 'Download';
+  window.open("http://aedashboardv3.azurewebsites.net/download")
+  window.location.reload();
 }

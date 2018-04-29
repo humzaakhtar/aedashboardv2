@@ -12,22 +12,13 @@ var Request = require('tedious').Request;
 var fs = require('fs');
 var router = express.Router();
 const app = express();
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-
 var rowObject = {};
-var csvheader = 0;
-
-//app.use(function(req, res /*, next*/ ) {
-//  res.redirect('/');
-//});
-
 
 router.use(function(req, res, next) {
   console.log("/" + req.method);
@@ -37,11 +28,6 @@ router.use(function(req, res, next) {
 app.use("/", router);
 
 app.use(busboy());
-
-
-router.get('/download', function(req, res) {
-  res.download(__dirname + '/sensordata.txt', 'sensordata.txt');
-});
 
 
 
@@ -54,70 +40,72 @@ function isJson(str) {
   return true;
 }
 
+
+
+
+router.get('/download', function(req, res) {
+  res.download(__dirname + '/sensordata.txt', 'sensordata.txt');
+});
+
+
 router.post('/visdata', function(req, res) {
   console.log(req.body);
   try {
-      msg = req.body;
-      if (msg.hasOwnProperty('jobid')) {
-        var config = {
-          userName: 'akhtarh',
-          password: 'Aeiotbox2',
-          server: 'aesqldatabaseserver.database.windows.net',
-          options: {
-            database: 'aesqldatabase',
-            encrypt: true,
-            rowCollectionOnDone: true
-          }
+    msg = req.body;
+    if (msg.hasOwnProperty('jobid')) {
+      var config = {
+        userName: 'akhtarh',
+        password: 'Aeiotbox2',
+        server: 'aesqldatabaseserver.database.windows.net',
+        options: {
+          database: 'aesqldatabase',
+          encrypt: true,
+          rowCollectionOnDone: true
         }
-        var connectionsql = new Connection(config);
-        connectionsql.on('connect', function(err) {
-          jsonArray = []
-          if (err) {
-            console.log(err)
-          } else {
-            console.log('Reading rows from the Table...');
-            var reqsql = "select * from sensordata where jobid = " + msg.jobid
-            request = new Request(
-              reqsql,
-              function(err, rowCount, rows) {
-                process.exit();
-              }
-            );
-            request.on('row', function(columns) {
-              //  client.send("row downloaded");
-
-              rowObject = {};
-              var itemsProcessed = 0;
-              columns.forEach(function(column) {
-                rowObject[column.metadata.colName] = column.value;
-                itemsProcessed++;
-                if (itemsProcessed === 6) {
-                  rowObject["from"] = "db"
-                  jsonArray.push(rowObject)
-                }
-              });
-            });
-            request.on('doneProc', function(rowCount, more, returnStatus, rows) {
-              console.log("all rows downloaded")
-
-              fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
-            //  ws.send("file downloaded");
-            //  res.send("file downloaded");
-
-            });
-            connectionsql.execSql(request);
-          }
-        });
       }
-
+      var connectionsql = new Connection(config);
+      connectionsql.on('connect', function(err) {
+        jsonArray = []
+        if (err) {
+          console.log(err)
+        } else {
+          console.log('Reading rows from the Table...');
+          var reqsql = "select * from sensordata where jobid = " + msg.jobid
+          request = new Request(
+            reqsql,
+            function(err, rowCount, rows) {
+              process.exit();
+            }
+          );
+          request.on('row', function(columns) {
+            rowObject = {};
+            var itemsProcessed = 0;
+            columns.forEach(function(column) {
+              rowObject[column.metadata.colName] = column.value;
+              itemsProcessed++;
+              if (itemsProcessed === 6) {
+                rowObject["from"] = "db"
+                jsonArray.push(rowObject)
+              }
+            });
+          });
+          request.on('doneProc', function(rowCount, more, returnStatus, rows) {
+            console.log("all rows downloaded")
+            fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
+            res.send("file downloaded");
+          });
+          connectionsql.execSql(request);
+        }
+      });
+    }
   } catch (e) {
     console.error(e);
-  //  res.send("error");
+    res.send("error");
   }
-
-  //req.pipe(req.busboy);
-
 });
+
+
+
 
 
 
@@ -125,6 +113,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({
   server
 });
+
 
 // Broadcast to all.
 wss.broadcast = function broadcast(data) {
@@ -142,43 +131,19 @@ wss.broadcast = function broadcast(data) {
 
 
 
-var sockets = [];
-wss.on('connection', function connection(ws) {
-
-  var id = ws.upgradeReq.headers['sec-websocket-key'];
-  sockets[id] = ws;
-
-  console.log('New Connection id :: ', id);
-
-  ws.on('message', function incoming(msg) {
-    var id = ws.upgradeReq.headers['sec-websocket-key'];
-
-
-    //}
-    //});
-  });
-
-
-  ws.on('close', function() {
-    var id = ws.upgradeReq.headers['sec-websocket-key'];
-    console.log('Closing :: ', id);
-  });
-
-
-
-});
-
 
 
 var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 iotHubReader.startReadMessage(function(obj, date) {
   try {
-  //  console.log(date);
+    //  console.log(date);
     date = date || Date.now();
     var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
     var stillUtc = moment.utc(date).toDate();
     var local = moment(stillUtc).local().format('hh:mm:ss');
-    wss.broadcast(JSON.stringify(Object.assign(obj, {  time: local})));
+    wss.broadcast(JSON.stringify(Object.assign(obj, {
+      time: local
+    })));
   } catch (err) {
     console.log(obj);
     console.error(err);
