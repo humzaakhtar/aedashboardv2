@@ -309,7 +309,7 @@ function visualizedata() {
   console.log(inputval);
   var obj ={};
   obj.jobid = inputval;
-  obj.to = "sec-websocket-identifier";
+  //obj.to = "sec-websocket-identifier";
 
   obj_st = JSON.stringify(obj);
   if(inputval){
