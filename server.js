@@ -57,7 +57,7 @@ function isJson(str) {
 router.post('/visdata', function(req, res) {
   console.log(req.body);
   try {
-      msg = JSON.parse(req.body);
+      msg = req.body;
       if (msg.hasOwnProperty('jobid')) {
         var config = {
           userName: 'akhtarh',
@@ -102,7 +102,7 @@ router.post('/visdata', function(req, res) {
 
               //fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
             //  ws.send("file downloaded");
-              res.success("file downloaded");
+              res.end("file downloaded");
 
             });
             connectionsql.execSql(request);
@@ -112,7 +112,7 @@ router.post('/visdata', function(req, res) {
 
   } catch (e) {
     console.error(e);
-    res.success("error");
+    res.end("error");
   }
 
   //req.pipe(req.busboy);
