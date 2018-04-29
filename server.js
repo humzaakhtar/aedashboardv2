@@ -26,9 +26,11 @@ var rowObject = {};
 //  next();
 //});
 
-app.use("/", router);
 
-
+router.use(function(req, res, next) {
+  console.log("/" + req.method);
+  next();
+});
 
 function isJson(str) {
   try {
@@ -185,4 +187,8 @@ router.post('/visdata', function(req, res) {
 
   }
 });
+
+
+app.use("/", router);
+
 //restartiothub
