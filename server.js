@@ -81,7 +81,6 @@ function isJson(str) {
   }
 
 
-  app.use("/", router);
 
 
   var port = normalizePort(process.env.PORT || '3000');
@@ -91,10 +90,17 @@ function isJson(str) {
 
 
 
+
+
+
+
+
+router.get('/', function(req, res) {
+
   iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
 
-  IoTHubReader.startReadMessage(function(obj, date) {
+  ioTHubReader.startReadMessage(function(obj, date) {
         try {
           console.log("i am new function");
           date = date || Date.now();
@@ -110,10 +116,6 @@ function isJson(str) {
         }
       });
 
-
-
-
-router.get('/', function(req, res) {
 
   res.sendFile(__dirname+'/public/index.html');
 });
@@ -188,5 +190,6 @@ router.post('/visdata', function(req, res) {
 });
 
 
+app.use("/", router);
 
 //restartiothub
