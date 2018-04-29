@@ -41,9 +41,6 @@ function isJson(str) {
 }
 
 
-router.get('/', function(req, res) {
-
-
   const server = http.createServer(app);
   const wss = new WebSocket.Server({
     server
@@ -63,6 +60,30 @@ router.get('/', function(req, res) {
       }
     });
   };
+
+
+
+  /**
+   * Normalize a port into a number, string, or false.
+   */
+
+  function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+      // named pipe
+      return val;
+    }
+
+    if (port >= 0) {
+      // port number
+      return port;
+    }
+
+    return false;
+  }
+
+router.get('/', function(req, res) {
 
 
 
@@ -92,25 +113,7 @@ router.get('/', function(req, res) {
     console.log('Listening on %d', server.address().port);
   });
 
-  /**
-   * Normalize a port into a number, string, or false.
-   */
 
-  function normalizePort(val) {
-    var port = parseInt(val, 10);
-
-    if (isNaN(port)) {
-      // named pipe
-      return val;
-    }
-
-    if (port >= 0) {
-      // port number
-      return port;
-    }
-
-    return false;
-  }
 
 });
 
