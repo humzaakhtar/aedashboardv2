@@ -5,7 +5,7 @@ const moment = require('moment');
 const path = require('path');
 const bodyParser = require('body-parser');
 var sql = require('mssql');
-var iotHubClient = require('./IoTHub/iot-hub.js');
+const iotHubClient = require('./IoTHub/iot-hub.js');
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 var fs = require('fs');
@@ -95,8 +95,8 @@ router.get('/', function(req, res) {
 
   var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
-
-  ioTHubReader.startReadMessage(function(obj, date) {
+if(iotHubReader){
+  iotHubReader.startReadMessage(function(obj, date) {
         try {
           console.log("i am new function");
           date = date || Date.now();
@@ -111,6 +111,8 @@ router.get('/', function(req, res) {
           console.error(err);
         }
       });
+
+}
 
 
   res.sendFile(__dirname+'/public/indexfile.html');
