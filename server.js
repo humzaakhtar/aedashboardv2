@@ -57,7 +57,6 @@ function isJson(str) {
 router.post('/visdata', function(req, res) {
 
   try {
-    if (isJson(req.body)) {
       msg = JSON.parse(req.body);
       if (msg.hasOwnProperty('jobid')) {
         var config = {
@@ -110,7 +109,7 @@ router.post('/visdata', function(req, res) {
           }
         });
       }
-    }
+
   } catch (e) {
     console.error(e);
     res.send("error");
