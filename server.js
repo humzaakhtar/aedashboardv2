@@ -25,6 +25,8 @@ router.use(function(req, res, next) {
   next();
 });
 
+app.set('view engine', 'html');
+
 app.use("/", router);
 
 app.use(busboy());
