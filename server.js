@@ -94,7 +94,7 @@ function isJson(str) {
 
 
 
-router.get('/', function(req, res) {
+/*router.get('/', function(req, res) {
   console.log("hello i am loaded");
 
 
@@ -119,7 +119,7 @@ router.get('/', function(req, res) {
 
 
   res.sendFile(__dirname+'/public/index.html');
-});
+});*/
 
 router.get('/downloadpage',function(req,res){
   res.sendFile(__dirname+'/public/downloaddata.html');
