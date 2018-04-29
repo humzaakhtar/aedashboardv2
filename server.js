@@ -3,10 +3,9 @@ const http = require('http');
 const WebSocket = require('ws');
 const moment = require('moment');
 const path = require('path');
-const busboy = require('connect-busboy');
 const bodyParser = require('body-parser');
 var sql = require('mssql');
-const iotHubClient = require('./IoTHub/iot-hub.js');
+var iotHubClient = require('./IoTHub/iot-hub.js');
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 var fs = require('fs');
@@ -96,6 +95,8 @@ function isJson(str) {
 
 
 router.get('/', function(req, res) {
+  console.log("hello i am loaded");
+
 
   iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
