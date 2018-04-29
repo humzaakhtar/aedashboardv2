@@ -320,7 +320,7 @@ function visualizedata() {
       type: 'POST',
       data: obj_st,
       contentType: "application/json",
-      dataType: 'json',
+      dataType: 'text',
       url: '/visdata',
       success: function(data) {
         console.log(data);
