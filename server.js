@@ -90,11 +90,10 @@ function isJson(str) {
   });
 
 
-iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
+var iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
 
-function runreader(iotHubReader){
-  iotHubReader.startReadMessage(function(obj, date) {
+iotHubReader.startReadMessage(function(obj, date) {
     try {
       console.log(date);
       date = date || Date.now();
@@ -109,14 +108,13 @@ function runreader(iotHubReader){
       console.error(err);
     }
   });
-}
+
 
 
 router.get('/', function(req, res) {
 
-
   res.render('public/index');
-    runreader(iotHubReader);
+
 
 });
 
