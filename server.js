@@ -114,8 +114,9 @@ function runreader(iotHubReader){
 
 router.get('/', function(req, res) {
 
-  runreader(iotHubReader);
+
   res.render('public/index');
+    runreader(iotHubReader);
 
 });
 
