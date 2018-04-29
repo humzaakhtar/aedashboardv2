@@ -25,8 +25,6 @@ router.use(function(req, res, next) {
   next();
 });
 
-app.set('view engine', 'html');
-
 app.use("/", router);
 
 app.use(busboy());
@@ -115,14 +113,15 @@ iotHubReader.startReadMessage(function(obj, date) {
 
 router.get('/', function(req, res) {
 
-  res.render('public/index');
+  res.sendFile(__dirname+'/public/index.html');
+
 
 
 });
 
 router.get('/downloadpage',function(req,res){
 
-  res.render('public/downloaddata');
+  res.sendFile(__dirname+'/public/downloaddata.html');
 
 
 });
