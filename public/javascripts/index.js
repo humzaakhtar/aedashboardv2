@@ -175,7 +175,7 @@ HistoricalLineChart = new Chart(ctx_h, {
 
 
 
-ws = new WebSocket('wss://' + location.host);
+ws = new WebSocket('wss://' + location.host + ":8883");
 //ws1 = new WebSocket('wss://' + location.host);
 
 
