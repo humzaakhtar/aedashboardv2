@@ -89,12 +89,7 @@ function isJson(str) {
 
 
 
-
-
-
-
-
-/*router.get('/', function(req, res) {
+router.get('/', function(req, res) {
   console.log("hello i am loaded");
 
 
@@ -118,8 +113,8 @@ function isJson(str) {
       });
 
 
-  res.sendFile(__dirname+'/public/index.html');
-});*/
+  res.sendFile(__dirname+'/public/indexfile.html');
+});
 
 router.get('/downloadpage',function(req,res){
   res.sendFile(__dirname+'/public/downloaddata.html');
