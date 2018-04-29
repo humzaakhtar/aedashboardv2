@@ -98,7 +98,24 @@ function newhub(){
 
 }
 
+  iotHubReader = new iotHubClient(process.env['Azure.IoT.IoTHub.ConnectionString'], process.env['Azure.IoT.IoTHub.ConsumerGroup']);
 
+
+  IoTHubReader.startReadMessage(function(obj, date) {
+        try {
+          console.log("i am new function");
+          date = date || Date.now();
+          var date = moment.utc(date).format('YYYY-MM-DD HH:mm:ss');
+          var stillUtc = moment.utc(date).toDate();
+          var local = moment(stillUtc).local().format('hh:mm:ss');
+          wss.broadcast(JSON.stringify(Object.assign(obj, {
+            time: local
+          })));
+        } catch (err) {
+          console.log(obj);
+          console.error(err);
+        }
+      });
 
   function restartiothub (cl){
 
