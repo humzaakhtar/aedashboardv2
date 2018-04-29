@@ -314,10 +314,21 @@ function visualizedata() {
   obj_st = JSON.stringify(obj);
   if(inputval){
     console.log("visualize data");
-    ws1.send(obj_st);
 
-  //  ws.send(obj_st);
-  //  socket.emit('message', inputval);
+
+    $.ajax({
+      type: 'POST',
+      data: obj_st,
+      contentType: "application/json",
+      dataType: 'json',
+      url: '/visdata',
+      success: function(data) {
+        console.log(data);
+      }
+    });
+
+  //  ws1.send(obj_st);
+
   }
 
 //  socket.on('record', function(msg){
