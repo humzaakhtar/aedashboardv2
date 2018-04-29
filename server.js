@@ -102,7 +102,7 @@ router.post('/visdata', function(req, res) {
 
               fs.writeFileSync('sensordata.txt', JSON.stringify(jsonArray));
             //  ws.send("file downloaded");
-              res.send("file downloaded");
+            //  res.send("file downloaded");
 
             });
             connectionsql.execSql(request);
@@ -112,7 +112,7 @@ router.post('/visdata', function(req, res) {
 
   } catch (e) {
     console.error(e);
-    res.send("error");
+  //  res.send("error");
   }
 
   //req.pipe(req.busboy);
